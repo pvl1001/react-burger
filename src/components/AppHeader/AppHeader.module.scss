@@ -1,0 +1,40 @@
+._ {
+   background-color: #1C1C21;
+   margin: 0 auto;
+   position: relative;
+
+   span {
+      display: flex;
+   }
+}
+
+.wrapper {
+   display: flex;
+   align-items: center;
+   flex: 1;
+   height: 88px;
+}
+
+.list {
+   display: flex;
+   flex: 1;
+
+   li:last-child {
+      margin: 0 0 0 auto;
+   }
+}
+
+.nav {
+   width: 100%;
+}
+
+.logo {
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+
+   @media (max-width: 1150px) {
+      display: none;
+   }
+}
+

@@ -1,6 +1,20 @@
-@import 'styles/null.scss';
-@import 'fonts/stylesheet.css';
+@import 'styles/null.scss'; // обнуление
+@import 'styles/variables.scss'; // переменные
+@import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/fonts/fonts.css'; // шрифты
+@import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css'; // отступы
+@import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css'; // типография
+
 
 body {
-   font-family: 'JetBrains Mono', 'Arial', serif;
+   font-family: 'Jet Brains Mono', 'Arial', serif;
+   background-color: $bg-color;
+   color: $text-color;
+   padding: 20px 40px;
+}
+
+.wrapper {
+   max-width: $wrapper;
+   margin: 0 auto;
+   padding: 0 40px;
+   box-sizing: content-box;
 }
