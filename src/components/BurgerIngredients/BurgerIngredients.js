@@ -2,7 +2,6 @@ import s from './BurgerIngredients.module.scss'
 import GroupIngredients from "./GroupIngredients/GroupIngredients";
 import React, { useEffect, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import data from 'utils/data'
 
 
 const ingredientGroups = [
@@ -21,7 +20,7 @@ const ingredientGroups = [
 ]
 
 
-function BurgerIngredients() {
+function BurgerIngredients( { data } ) {
    const [ current, setCurrent ] = useState( 'bun' )
 
    useEffect( () => {
@@ -30,7 +29,7 @@ function BurgerIngredients() {
 
 
    return (
-      <section className={ s._ + ' mr-10' }>
+      <section>
 
          <div style={ { display: 'flex' } } className="mb-10">
             { ingredientGroups.map( tab =>
@@ -44,7 +43,7 @@ function BurgerIngredients() {
             ) }
          </div>
 
-         <ul className={ s.list }>
+         <ul className={ s.list + ' scrollbar' }>
             { ingredientGroups.map( group =>
                <GroupIngredients
                   key={ group.name }
