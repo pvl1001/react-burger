@@ -1,5 +1,14 @@
 import s from './ConstructorItem.module.scss'
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import { dataPropTypes } from "utils/propTypes";
+
+
+ConstructorItem.propTypes = {
+   data: dataPropTypes.isRequired,
+   index: PropTypes.number.isRequired,
+   listLength: PropTypes.number.isRequired,
+}
 
 
 function ConstructorItem( { data, index, listLength } ) {

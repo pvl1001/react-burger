@@ -1,6 +1,13 @@
 import s from './BurgerConstructor.module.scss'
 import ConstructorItem from "./ConstructorItem/ConstructorItem";
 import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from 'prop-types'
+import { dataPropTypes } from "../../utils/propTypes";
+
+
+BurgerConstructor.propTypes = {
+   data: PropTypes.arrayOf( dataPropTypes ).isRequired
+}
 
 
 function BurgerConstructor( { data } ) {
