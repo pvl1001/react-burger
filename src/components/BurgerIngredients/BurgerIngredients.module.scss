@@ -1,0 +1,29 @@
+@import "styles/variables";
+
+._ {
+   width: 50%;
+}
+
+.list {
+   max-height: calc(100vh - 284px);
+   overflow: auto;
+   position: relative;
+
+   scrollbar-color: #8585AD #2F2F37;
+   scrollbar-width: thin;
+
+   &::-webkit-scrollbar {
+      width: 8px; /* ширина для вертикального скролла */
+      background-color: #2F2F37;
+      margin-right: -15px;
+      position: absolute;
+      right: 0;
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background-color: #8585AD;
+      height: 350px;
+      width: 8px;
+      margin-right: -15px;
+   }
+}
