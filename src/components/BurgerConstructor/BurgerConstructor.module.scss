@@ -1,0 +1,25 @@
+.list {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   max-height: calc(100vh - 523px);
+   overflow: auto;
+}
+
+.order {
+   display: flex;
+   align-items: center;
+   width: fit-content;
+   margin-left: auto;
+}
+
+.price {
+   display: flex;
+   align-items: center;
+   gap: 9px;
+
+   svg {
+      width: 35px;
+      height: 35px;
+   }
+}

@@ -1,0 +1,13 @@
+._ {
+   display: flex;
+   justify-content: space-between;
+   gap: 8px;
+   align-items: center;
+}
+
+.icon {
+   display: flex;
+   align-items: center;
+   flex: 0 0 24px;
+   cursor: pointer;
+}
