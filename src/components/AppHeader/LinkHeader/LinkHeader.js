@@ -1,4 +1,13 @@
 import s from './LinkHeader.module.scss'
+import PropTypes from "prop-types";
+
+
+LinkHeader.propTypes = {
+   icon: PropTypes.node.isRequired,
+   isActive: PropTypes.bool.isRequired,
+   name: PropTypes.string.isRequired,
+   className: PropTypes.string,
+}
 
 
 function LinkHeader( { icon, isActive, name, className = '' } ) {
