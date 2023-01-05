@@ -1,28 +1,27 @@
 import s from './ConstructorItem.module.scss'
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import { dataPropTypes } from "utils/propTypes";
+import PropTypes from "prop-types";
 
 
 ConstructorItem.propTypes = {
    data: dataPropTypes.isRequired,
-   index: PropTypes.number.isRequired,
-   listLength: PropTypes.number.isRequired,
+   type: PropTypes.string,
+   className: PropTypes.string,
 }
 
 
-function ConstructorItem( { data, index, listLength } ) {
-   const type = index === 0 ? 'top' : index === listLength - 1 ? 'bottom' : undefined
+function ConstructorItem( { data, type, isLocked = false, className = '' } ) {
 
    return (
-      <li className={ s._ }>
+      <li className={ `${ s._ } ${ className }` }>
          <div className={ s.icon }>
             { !type && <DragIcon type="primary"/> }
          </div>
 
          <ConstructorElement
             type={ type }
-            isLocked={ true }
+            isLocked={ isLocked }
             text={ data.name }
             price={ data.price }
             thumbnail={ data.image }
