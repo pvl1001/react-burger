@@ -22,8 +22,9 @@
       "web-vitals": "^2.1.4"
    },
    "devDependencies": {
-      "sass": "^1.57.1",
-      "prop-types": "^15.8.1"
+      "eslint": "^8.31.0",
+      "prop-types": "^15.8.1",
+      "sass": "^1.57.1"
    },
    "scripts": {
       "start": "react-scripts start",

@@ -8,6 +8,7 @@ ConstructorItem.propTypes = {
    data: dataPropTypes.isRequired,
    type: PropTypes.string,
    className: PropTypes.string,
+   isLocked: PropTypes.bool,
 }
 
 
