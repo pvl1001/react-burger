@@ -6,9 +6,8 @@ import PropTypes from "prop-types";
 import { dataPropTypes } from "../../utils/propTypes";
 
 
-
 BurgerIngredients.propTypes = {
-   data: PropTypes.arrayOf( dataPropTypes ).isRequired
+   data: PropTypes.arrayOf( dataPropTypes ),
 }
 
 const ingredientGroups = [

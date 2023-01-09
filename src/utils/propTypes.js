@@ -14,3 +14,9 @@ export const dataPropTypes = PropTypes.shape( {
    "image_large": PropTypes.string.isRequired,
    "__v": PropTypes.number.isRequired,
 } )
+
+export const modalPropTypes = {
+   closeModal: PropTypes.func.isRequired,
+   showModal: PropTypes.func.isRequired,
+   visible: PropTypes.bool.isRequired,
+}
