@@ -2,7 +2,8 @@ import AppHeader from "./AppHeader/AppHeader";
 import BurgerIngredients from "./BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "./BurgerConstructor/BurgerConstructor";
 import {useEffect, useState} from "react";
-import {API, errorAPI} from "../utils/variables";
+import {errorAPI} from "../utils/variables";
+import {NORMA_API} from "../utils/burger-api";
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
    useEffect(() => {
       async function getIngredients() {
          try {
-            const response = await fetch(API)
+            const response = await fetch(`${NORMA_API}/ingredients`)
             const {data, success} = await response.json()
             success
                ? setIngredients(data)
