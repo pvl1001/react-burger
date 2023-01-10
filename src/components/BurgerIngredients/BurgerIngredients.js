@@ -1,14 +1,13 @@
 import s from './BurgerIngredients.module.scss'
 import GroupIngredients from "./GroupIngredients/GroupIngredients";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { dataPropTypes } from "../../utils/propTypes";
 
 
-
 BurgerIngredients.propTypes = {
-   data: PropTypes.arrayOf( dataPropTypes ).isRequired
+   data: PropTypes.arrayOf( dataPropTypes ),
 }
 
 const ingredientGroups = [

@@ -2,16 +2,19 @@ import s from './GroupIngredients.module.scss'
 import CardIngredients from "../CardIngredients/CardIngredients";
 import { dataPropTypes } from "../../../utils/propTypes";
 import PropTypes from "prop-types";
+import withModal from "../../_hocs/withModal";
 
 
 GroupIngredients.propTypes = {
-   data: PropTypes.arrayOf( dataPropTypes ).isRequired,
+   data: PropTypes.arrayOf( dataPropTypes ),
    group: PropTypes.shape( {
       value: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
    } )
 }
 
+
+const WithModalCardIngredients = withModal( CardIngredients )
 
 function GroupIngredients( { group, data } ) {
    return (
@@ -20,12 +23,7 @@ function GroupIngredients( { group, data } ) {
 
          <ul className={ s.list + " pt-6 pb-10 pl-4 pr-4" }>
             { data.map( card =>
-               <CardIngredients
-                  key={ card._id }
-                  image={ card.image }
-                  price={ card.price }
-                  name={ card.name }
-               />
+               <WithModalCardIngredients key={ card._id } data={ card }/>
             ) }
          </ul>
       </li>

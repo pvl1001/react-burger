@@ -1,0 +1,22 @@
+.container {
+   text-align: center;
+}
+
+.image_container {
+   display: block;
+   width: 100%;
+}
+
+.image {
+   height: 240px;
+}
+
+.composition {
+   display: flex;
+   gap: 20px;
+}
+
+.composition_item {
+   flex: 1;
+   white-space: nowrap;
+}

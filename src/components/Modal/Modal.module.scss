@@ -1,0 +1,41 @@
+._, .overlay {
+   position: fixed;
+   top: 0;
+   right: 0;
+   left: 0;
+   bottom: 0;
+}
+
+.modal {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   max-width: 720px;
+   width: 100%;
+   z-index: 100;
+   background-color: #1C1C21;
+   border-radius: 40px;
+}
+
+.title {
+   display: flex;
+   align-items: center;
+   min-height: 64px;
+}
+
+.overlay {
+   background-color: #000000;
+   opacity: .6;
+}
+
+.close_btn {
+   position: absolute;
+   display: flex;
+   top: 60px;
+   right: 40px;
+
+   svg {
+      margin: auto;
+   }
+}

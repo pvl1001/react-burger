@@ -22,15 +22,19 @@
       "web-vitals": "^2.1.4"
    },
    "devDependencies": {
-      "sass": "^1.57.1",
-      "prop-types": "^15.8.1"
+      "eslint": "^8.31.0",
+      "eslint-plugin-react": "^7.31.11",
+      "prop-types": "^15.8.1",
+      "sass": "^1.57.1"
    },
    "scripts": {
       "start": "react-scripts start",
       "build": "react-scripts build",
       "serve": "serve -s build",
       "test": "react-scripts test",
-      "eject": "react-scripts eject"
+      "eject": "react-scripts eject",
+      "lint": "eslint .",
+      "lint:fix": "eslint --fix"
    },
    "eslintConfig": {
       "extends": [
