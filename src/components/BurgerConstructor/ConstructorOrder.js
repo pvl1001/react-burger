@@ -3,16 +3,20 @@ import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-co
 import Modal from "../Modal/Modal";
 import { modalPropTypes } from "../../utils/propTypes";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import PropTypes from "prop-types";
 
 
-ConstructorOrder.propTypes = modalPropTypes
+ConstructorOrder.propTypes = {
+   ...modalPropTypes,
+   totalPrice: PropTypes.number.isRequired
+}
 
 
-function ConstructorOrder( { showModal, closeModal, visible } ) {
+function ConstructorOrder( { showModal, closeModal, visible, totalPrice } ) {
    return (
       <div className={ s.order + ' mt-10 pr-4' }>
          <p className={ s.price + ' text text_type_digits-medium mr-10' }>
-            610 <CurrencyIcon type="primary"/>
+            { totalPrice } <CurrencyIcon type="primary"/>
          </p>
 
          <Button
