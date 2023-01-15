@@ -25,11 +25,12 @@ function BurgerConstructor() {
    const ingredients = useContext( IngredientsContext )
    const [ buns ] = useState( ingredients.filter( el => el.type === 'bun' ) )
    const [ fillings ] = useState( ingredients.filter( el => el.type !== 'bun' ) )
+   const constructorData = [ buns[0], ...fillings ]
    const [ stateTotalPrice, dispatchTotalPrice ] = useReducer( reducer, 0 )
 
    // рассчитать стоимость заказа
    useEffect( () => {
-      dispatchTotalPrice( { type: 'sum', payload: [ buns[0], ...fillings ] } )
+      dispatchTotalPrice( { type: 'sum', payload: constructorData } )
    }, [ buns, fillings ] )
 
 
@@ -55,8 +56,10 @@ function BurgerConstructor() {
             />
          </div>
 
-
-         <WithModalConstructorOrder totalPrice={ stateTotalPrice }/>
+         <WithModalConstructorOrder
+            totalPrice={ stateTotalPrice }
+            ingredientsId={ constructorData.map( el => el._id ) }
+         />
 
       </section>
    )
