@@ -1,23 +1,18 @@
 import s from './BurgerConstructor.module.scss'
 import ConstructorItem from "./ConstructorItem/ConstructorItem";
-import PropTypes from 'prop-types'
-import { dataPropTypes } from "../../utils/propTypes";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import withModal from "../_hocs/withModal";
 import ConstructorOrder from "./ConstructorOrder";
-
-
-BurgerConstructor.propTypes = {
-   data: PropTypes.arrayOf( dataPropTypes )
-}
+import { IngredientsContext } from "../../context/burgerContext";
 
 
 const WithModalConstructorItem = withModal( ConstructorItem )
 const WithModalConstructorOrder = withModal( ConstructorOrder )
 
-function BurgerConstructor( { data } ) {
-   const [ buns ] = useState( data.filter( el => el.type === 'bun' ) )
-   const [ fillings ] = useState( data.filter( el => el.type !== 'bun' ) )
+function BurgerConstructor() {
+   const ingredients = useContext( IngredientsContext )
+   const [ buns ] = useState( ingredients.filter( el => el.type === 'bun' ) )
+   const [ fillings ] = useState( ingredients.filter( el => el.type !== 'bun' ) )
 
 
    return (
