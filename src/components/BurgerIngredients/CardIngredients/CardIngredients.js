@@ -19,7 +19,7 @@ function CardIngredients( { data, } ) {
          <Counter count={ 1 } size="default" extraClass="m-1"/>
 
          <picture className={ s.image_container }>
-            <img className={ s.image } src={ data.image_large } alt="ингредиент"/>
+            <img className={ s.image } src={ data.image } alt="ингредиент"/>
          </picture>
 
          <p className={ s.price + ' text text_type_digits-default pt-1 pb-1' }>
