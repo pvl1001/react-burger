@@ -19,6 +19,7 @@ function ConstructorItem( props ) {
       className = '',
       type,
    } = props
+   const bunPosition = type === 'top' ? ' (верх)' : type === 'bottom' ? ' (низ)' : ''
 
 
    return (
@@ -30,7 +31,7 @@ function ConstructorItem( props ) {
          <ConstructorElement
             type={ type }
             isLocked={ isLocked }
-            text={ data.name }
+            text={ data.name + bunPosition }
             price={ data.price }
             thumbnail={ data.image }
          />

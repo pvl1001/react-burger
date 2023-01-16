@@ -13,7 +13,6 @@ CardIngredients.propTypes = {
 
 function CardIngredients( { data, } ) {
    const { closeModal, showModal, visible } = useModal()
-   console.log(data)
 
    return (
       <li className={ s._ } onClick={ showModal }>
