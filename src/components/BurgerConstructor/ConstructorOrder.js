@@ -6,6 +6,7 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import PropTypes from "prop-types";
 import { NORMA_API } from "../../utils/burger-api";
 import { useState } from "react";
+import { request } from "../../utils/request";
 
 
 ConstructorOrder.propTypes = {
@@ -24,12 +25,11 @@ function ConstructorOrder( { showModal, closeModal, visible, totalPrice, ingredi
 
    async function getOrderId() {
       try {
-         const response = await fetch( `${ NORMA_API }/orders`, {
+         const { order, success } = await request( `${ NORMA_API }/orders`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify( { ingredients: ingredientsId } )
          } )
-         const { order, success } = await response.json()
          if ( success ) setOrderId( order.number )
       } catch ( err ) {
          alert('Ошибка запроса заявки')

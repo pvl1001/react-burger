@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {errorAPI} from "../utils/variables";
 import {NORMA_API} from "../utils/burger-api";
 import {IngredientsContext} from "../context/burgerContext";
+import {request} from "../utils/request";
 
 
 function App() {
@@ -14,11 +15,8 @@ function App() {
    useEffect(() => {
       async function getIngredients() {
          try {
-            const response = await fetch(`${NORMA_API}/ingredients`)
-            const {data, success} = await response.json()
-            success
-               ? setIngredients(data)
-               : alert(errorAPI)
+            const {data, success} = await request(`${NORMA_API}/ingredients`)
+            if (success) setIngredients(data)
          } catch (err) {
             alert(errorAPI)
             console.error(err)
