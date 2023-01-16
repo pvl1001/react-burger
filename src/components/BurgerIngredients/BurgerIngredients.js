@@ -33,7 +33,7 @@ function BurgerIngredients() {
    return (
       <section>
 
-         <div style={ { display: 'flex' } } className="mb-10">
+         <div className={ s.tabs + ' mb-10' }>
             { ingredientGroups.map( tab =>
                <Tab
                   key={ tab.name }
