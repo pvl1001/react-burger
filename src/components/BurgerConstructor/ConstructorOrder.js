@@ -1,22 +1,24 @@
 import s from "./BurgerConstructor.module.scss"
 import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import Modal from "../Modal/Modal";
-import { modalPropTypes } from "../../utils/propTypes";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import PropTypes from "prop-types";
 import { NORMA_API } from "../../utils/burger-api";
 import { useState } from "react";
 import { request } from "../../utils/request";
+import useModal from "../../hooks/useModal";
 
 
 ConstructorOrder.propTypes = {
-   ...modalPropTypes,
+   ingredientsId: PropTypes.arrayOf( PropTypes.string ),
    totalPrice: PropTypes.number.isRequired
 }
 
 
-function ConstructorOrder( { showModal, closeModal, visible, totalPrice, ingredientsId } ) {
+function ConstructorOrder( { totalPrice, ingredientsId } ) {
    const [ orderId, setOrderId ] = useState( 0 )
+   const { closeModal, showModal, visible } = useModal()
+
 
    async function showModalHandler( e ) {
       await getOrderId()
@@ -32,7 +34,7 @@ function ConstructorOrder( { showModal, closeModal, visible, totalPrice, ingredi
          } )
          if ( success ) setOrderId( order.number )
       } catch ( err ) {
-         alert('Ошибка запроса заявки')
+         alert( 'Ошибка запроса заявки' )
          console.log( err )
       }
    }

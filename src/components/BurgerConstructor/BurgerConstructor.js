@@ -1,13 +1,9 @@
 import s from './BurgerConstructor.module.scss'
 import ConstructorItem from "./ConstructorItem/ConstructorItem";
 import { useContext, useEffect, useReducer, useState } from "react";
-import withModal from "../_hocs/withModal";
 import ConstructorOrder from "./ConstructorOrder";
 import { IngredientsContext } from "../../context/burgerContext";
 
-
-const WithModalConstructorItem = withModal( ConstructorItem )
-const WithModalConstructorOrder = withModal( ConstructorOrder )
 
 function reducer( state, action ) {
    switch ( action.type ) {
@@ -37,7 +33,7 @@ function BurgerConstructor() {
    return (
       <section className={ s._ }>
          <div className={ s.constructor }>
-            <WithModalConstructorItem
+            <ConstructorItem
                className={ 'pl-4 pr-4 pb-4' }
                data={ buns[0] }
                type={ 'top' }
@@ -45,10 +41,10 @@ function BurgerConstructor() {
             />
 
             <ul className={ s.list + ' scrollbar pl-4 pr-4' }>
-               { fillings.map( el => <WithModalConstructorItem key={ el._id } data={ el }/> ) }
+               { fillings.map( el => <ConstructorItem key={ el._id } data={ el }/> ) }
             </ul>
 
-            <WithModalConstructorItem
+            <ConstructorItem
                className={ 'pl-4 pr-4 pt-4' }
                data={ buns[0] }
                type={ 'bottom' }
@@ -56,7 +52,7 @@ function BurgerConstructor() {
             />
          </div>
 
-         <WithModalConstructorOrder
+         <ConstructorOrder
             totalPrice={ stateTotalPrice }
             ingredientsId={ constructorData.map( el => el._id ) }
          />

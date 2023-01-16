@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "./ModalOverlay";
+import { useEffect } from "react";
 
 
 Modal.propTypes = {
@@ -13,6 +14,16 @@ Modal.propTypes = {
 
 
 function Modal( { children, header, onClose } ) {
+   // закрыть окно при нажатии "Escape"
+   useEffect( () => {
+      function keydownHandler( e ) {
+         if ( e.key === 'Escape' ) onClose( e )
+      }
+
+      document.addEventListener( 'keydown', keydownHandler )
+      return () => document.removeEventListener( 'keydown', keydownHandler )
+   }, [] )
+
 
    return ReactDOM.createPortal(
       <div className={ s._ }>
