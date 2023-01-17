@@ -1,14 +1,9 @@
 import s from './BurgerIngredients.module.scss'
 import GroupIngredients from "./GroupIngredients/GroupIngredients";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { dataPropTypes } from "../../utils/propTypes";
+import { IngredientsContext } from "../../context/burgerContext";
 
-
-BurgerIngredients.propTypes = {
-   data: PropTypes.arrayOf( dataPropTypes ),
-}
 
 const ingredientGroups = [
    {
@@ -26,18 +21,19 @@ const ingredientGroups = [
 ]
 
 
-function BurgerIngredients( { data } ) {
+function BurgerIngredients() {
+   const ingredients = useContext( IngredientsContext )
    const [ current, setCurrent ] = useState( 'bun' )
 
    useEffect( () => {
-      document.getElementById( current ).scrollIntoView()
+      document.getElementById( current ).scrollIntoView( { behavior: "smooth" } )
    }, [ current ] )
 
 
    return (
       <section>
 
-         <div style={ { display: 'flex' } } className="mb-10">
+         <div className={ s.tabs + ' mb-10' }>
             { ingredientGroups.map( tab =>
                <Tab
                   key={ tab.name }
@@ -53,7 +49,7 @@ function BurgerIngredients( { data } ) {
             { ingredientGroups.map( group =>
                <GroupIngredients
                   key={ group.name }
-                  data={ data.filter( el => el.type === group.value ) }
+                  data={ ingredients.filter( el => el.type === group.value ) }
                   group={ group }
                />
             ) }

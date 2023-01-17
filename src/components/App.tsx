@@ -4,6 +4,8 @@ import BurgerConstructor from "./BurgerConstructor/BurgerConstructor";
 import {useEffect, useState} from "react";
 import {errorAPI} from "../utils/variables";
 import {NORMA_API} from "../utils/burger-api";
+import {IngredientsContext} from "../context/burgerContext";
+import {request} from "../utils/request";
 
 
 function App() {
@@ -13,11 +15,8 @@ function App() {
    useEffect(() => {
       async function getIngredients() {
          try {
-            const response = await fetch(`${NORMA_API}/ingredients`)
-            const {data, success} = await response.json()
-            success
-               ? setIngredients(data)
-               : alert(errorAPI)
+            const {data, success} = await request(`${NORMA_API}/ingredients`)
+            if (success) setIngredients(data)
          } catch (err) {
             alert(errorAPI)
             console.error(err)
@@ -36,8 +35,10 @@ function App() {
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
 
             <div className="main-row">
-               <BurgerIngredients data={ingredients}/>
-               <BurgerConstructor data={ingredients}/>
+               <IngredientsContext.Provider value={ingredients}>
+                  <BurgerIngredients/>
+                  <BurgerConstructor/>
+               </IngredientsContext.Provider>
             </div>
 
          </main>

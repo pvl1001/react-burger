@@ -1,17 +1,18 @@
 import s from './CardIngredients.module.scss'
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../../Modal/Modal";
-import { dataPropTypes, modalPropTypes } from "../../../utils/propTypes";
+import { dataPropTypes } from "../../../utils/propTypes";
 import IngredientDetails from "../../IngredientDetails/IngredientDetails";
+import useModal from "../../../hooks/useModal";
 
 
 CardIngredients.propTypes = {
-   ...modalPropTypes,
    data: dataPropTypes.isRequired,
 }
 
 
-function CardIngredients( { data, closeModal, showModal, visible } ) {
+function CardIngredients( { data, } ) {
+   const { closeModal, showModal, visible } = useModal()
 
    return (
       <li className={ s._ } onClick={ showModal }>
@@ -27,7 +28,10 @@ function CardIngredients( { data, closeModal, showModal, visible } ) {
          <p className={ s.name + ' text text_type_main-small' }>{ data.name }</p>
 
          { visible &&
-            <Modal onClose={ closeModal } header={'Детали ингредиента'}>
+            <Modal
+               header={ 'Детали ингредиента' }
+               onClose={ closeModal }
+            >
                <IngredientDetails data={ data }/>
             </Modal>
          }
