@@ -26,7 +26,7 @@ function BurgerIngredients() {
    const [ current, setCurrent ] = useState( 'bun' )
 
    useEffect( () => {
-      document.getElementById( current ).scrollIntoView()
+      document.getElementById( current ).scrollIntoView( { behavior: "smooth" } )
    }, [ current ] )
 
 
