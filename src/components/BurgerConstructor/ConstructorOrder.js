@@ -3,10 +3,9 @@ import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-co
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import PropTypes from "prop-types";
-import { NORMA_API } from "../../utils/burger-api";
-import { useState } from "react";
-import { request } from "../../utils/request";
 import useModal from "../../hooks/useModal";
+import { getOrderId } from "../../services/slices/orderSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 
 ConstructorOrder.propTypes = {
@@ -16,27 +15,14 @@ ConstructorOrder.propTypes = {
 
 
 function ConstructorOrder( { totalPrice, ingredientsId } ) {
-   const [ orderId, setOrderId ] = useState( 0 )
+   const dispatch = useDispatch()
+   const idRequest = useSelector( store => store.order.idRequest )
    const { closeModal, showModal, visible } = useModal()
 
 
    async function showModalHandler( e ) {
-      await getOrderId()
+      await dispatch( getOrderId( ingredientsId ) )
       showModal( e )
-   }
-
-   async function getOrderId() {
-      try {
-         const { order, success } = await request( `${ NORMA_API }/orders`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify( { ingredients: ingredientsId } )
-         } )
-         if ( success ) setOrderId( order.number )
-      } catch ( err ) {
-         alert( 'Ошибка запроса заявки' )
-         console.log( err )
-      }
    }
 
 
@@ -50,6 +36,7 @@ function ConstructorOrder( { totalPrice, ingredientsId } ) {
             htmlType="button"
             type="primary"
             size="large"
+            disabled={ !ingredientsId.length || idRequest }
             onClick={ showModalHandler }
          >
             Оформить заказ
@@ -57,7 +44,7 @@ function ConstructorOrder( { totalPrice, ingredientsId } ) {
 
          { visible &&
             <Modal onClose={ closeModal }>
-               <OrderDetails orderId={ orderId }/>
+               <OrderDetails/>
             </Modal>
          }
       </div>

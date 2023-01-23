@@ -1,8 +1,10 @@
 import s from './BurgerConstructor.module.scss'
 import ConstructorItem from "./ConstructorItem/ConstructorItem";
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import ConstructorOrder from "./ConstructorOrder";
-import { IngredientsContext } from "../../context/burgerContext";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import { addItemConstructor } from "../../services/slices/burgerConstructorSlice";
 
 
 function reducer( state, action ) {
@@ -18,43 +20,83 @@ function reducer( state, action ) {
 }
 
 function BurgerConstructor() {
-   const ingredients = useContext( IngredientsContext )
-   const [ buns ] = useState( ingredients.filter( el => el.type === 'bun' ) )
-   const [ fillings ] = useState( ingredients.filter( el => el.type !== 'bun' ) )
-   const constructorData = [ buns[0], ...fillings ]
+   const dispatch = useDispatch()
+   const { ingredients, constructorIngredients, bun } = useSelector( store => ({
+      ingredients: store.burgerIngredients.ingredients,
+      bun: store.burgerConstructor.bun,
+      constructorIngredients: store.burgerConstructor.ingredients,
+   }) )
+
    const [ stateTotalPrice, dispatchTotalPrice ] = useReducer( reducer, 0 )
+
+   const allIngredients = bun
+      ? [ ...constructorIngredients, bun ]
+      : constructorIngredients
+
+   const [ { isOver, canDrop }, dropTargetRef ] = useDrop( {
+      accept: 'ingredient',
+      // перетаскиваем ингредиент в конструктор
+      drop( item ) {
+         if ( item.index === undefined ) {
+            const currentItem = ingredients.find( el => el._id === item._id )
+            dispatch( addItemConstructor( currentItem ) )
+         }
+      },
+      collect: ( monitor ) => ({
+         isOver: monitor.isOver(),
+         canDrop: monitor.canDrop(),
+      })
+   } )
+
+   const borderColor = isOver ? 'lime' : canDrop ? '#9e8aff' : ''
 
    // рассчитать стоимость заказа
    useEffect( () => {
-      dispatchTotalPrice( { type: 'sum', payload: constructorData } )
-   }, [ buns, fillings ] )
+      dispatchTotalPrice( { type: 'sum', payload: allIngredients } )
+   }, [ constructorIngredients, bun ] )
 
 
    return (
       <section className={ s._ }>
-         <div className={ s.constructor }>
-            <ConstructorItem
-               className={ 'pl-4 pr-4 pb-4' }
-               data={ buns[0] }
-               type={ 'top' }
-               isLocked
-            />
+         <div
+            ref={ dropTargetRef }
+            style={ { borderColor } }
+            className={ s.constructor }
+         >
+            { allIngredients.length
+               ? <>
+                  { bun && <ConstructorItem
+                     className={ 'pl-4 pr-4 pb-4' }
+                     data={ bun }
+                     type={ 'top' }
+                     isLocked
+                  /> }
 
-            <ul className={ s.list + ' scrollbar pl-4 pr-4' }>
-               { fillings.map( el => <ConstructorItem key={ el._id } data={ el }/> ) }
-            </ul>
+                  <ul className={ `${ s.list } scrollbar pl-4 pr-4` }>
+                     { constructorIngredients.map( ( el, i ) =>
+                        <ConstructorItem
+                           key={ el.item_id }
+                           index={ i }
+                           data={ el }
+                        />
+                     ) }
+                  </ul>
 
-            <ConstructorItem
-               className={ 'pl-4 pr-4 pt-4' }
-               data={ buns[0] }
-               type={ 'bottom' }
-               isLocked
-            />
+                  { bun && <ConstructorItem
+                     className={ 'pl-4 pr-4 pt-4' }
+                     data={ bun }
+                     type={ 'bottom' }
+                     isLocked
+                  /> }
+               </>
+               : <p className={ `${ s.item_empty } text text_type_main-default text_color_inactive` }>
+                  Добавьте ингредиенты
+               </p> }
          </div>
 
          <ConstructorOrder
             totalPrice={ stateTotalPrice }
-            ingredientsId={ constructorData.map( el => el._id ) }
+            ingredientsId={ constructorIngredients.map( el => el._id ) }
          />
 
       </section>

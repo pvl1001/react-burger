@@ -1,57 +1,75 @@
 import s from './BurgerIngredients.module.scss'
-import GroupIngredients from "./GroupIngredients/GroupIngredients";
-import { useContext, useEffect, useState } from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientsContext } from "../../context/burgerContext";
+import GroupIngredients from "./GroupIngredients/GroupIngredients"
+import { useRef, useState } from "react"
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
+import { useSelector } from "react-redux"
 
 
-const ingredientGroups = [
-   {
-      name: 'Булки',
-      value: 'bun',
-   },
-   {
-      name: 'Соусы',
-      value: 'sauce',
-   },
-   {
-      name: 'Начинки',
-      value: 'main',
-   }
-]
-
+let debounce = null
 
 function BurgerIngredients() {
-   const ingredients = useContext( IngredientsContext )
+   const ingredients = useSelector( store => store.burgerIngredients.ingredients )
+   const refBuns = useRef( null )
+   const refSauce = useRef( null )
+   const refMain = useRef( null )
    const [ current, setCurrent ] = useState( 'bun' )
+   const ingredientGroups = [
+      {
+         name: 'Булки',
+         value: 'bun',
+         ref: refBuns,
+      },
+      {
+         name: 'Соусы',
+         value: 'sauce',
+         ref: refSauce,
+      },
+      {
+         name: 'Начинки',
+         value: 'main',
+         ref: refMain,
+      }
+   ]
 
-   useEffect( () => {
-      document.getElementById( current ).scrollIntoView( { behavior: "smooth" } )
-   }, [ current ] )
+   function onScrollHandler( e ) {
+      clearTimeout( debounce )
+      debounce = setTimeout( () => {
+         ingredientGroups.forEach( el => {
+            if ( el.ref.current.offsetTop - e.target.scrollTop <= 0 ) return setCurrent( el.value )
+         } )
+      }, 100 )
+   }
+
+   function clickTabHandler( item ) {
+      item.ref.current.scrollIntoView( { behavior: "smooth" } )
+   }
 
 
    return (
       <section>
 
          <div className={ s.tabs + ' mb-10' }>
-            { ingredientGroups.map( tab =>
+            { ingredientGroups.map( ( tab, i ) =>
                <Tab
-                  key={ tab.name }
+                  key={ i }
                   value={ tab.value }
-                  active={ current === tab.value }
-                  onClick={ setCurrent }
+                  active={ tab.value === current }
+                  onClick={ () => clickTabHandler( tab ) }
                >{ tab.name }
                </Tab>
             ) }
          </div>
 
-         <ul className={ s.list + ' scrollbar' }>
-            { ingredientGroups.map( group =>
-               <GroupIngredients
-                  key={ group.name }
-                  data={ ingredients.filter( el => el.type === group.value ) }
-                  group={ group }
-               />
+
+         <ul className={ s.list + ' scrollbar test' } onScroll={ onScrollHandler }>
+            { ingredientGroups.map( ( group, i ) => {
+                  return <GroupIngredients
+                     key={ i }
+                     itemRef={ group.ref }
+                     data={ ingredients.filter( el => el.type === group.value ) }
+                     group={ group }
+                  />
+               }
             ) }
          </ul>
       </section>
