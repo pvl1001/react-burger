@@ -21,6 +21,7 @@ const burgerIngredientsSlice = createSlice( {
          state.ingredientsRequest = true
       },
       getIngredientsFailed( state ) {
+         state.ingredients = []
          state.ingredientsRequest = false
          state.ingredientsFailed = true
       },

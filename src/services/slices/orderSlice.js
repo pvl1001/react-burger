@@ -20,6 +20,7 @@ const orderSlice = createSlice( {
          state.idRequest = true
       },
       getOrderIdFailed( state ) {
+         state.id = ''
          state.idRequest = false
          state.idFailed = true
       },
