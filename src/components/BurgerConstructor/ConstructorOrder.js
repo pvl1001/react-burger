@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import useModal from "../../hooks/useModal";
 import { getOrderId } from "../../services/slices/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { clearConstructor } from "../../services/slices/burgerConstructorSlice";
 
 
 ConstructorOrder.propTypes = {
@@ -22,6 +23,7 @@ function ConstructorOrder( { totalPrice, ingredientsId } ) {
 
    async function showModalHandler( e ) {
       await dispatch( getOrderId( ingredientsId ) )
+      dispatch( clearConstructor() )
       showModal( e )
    }
 
