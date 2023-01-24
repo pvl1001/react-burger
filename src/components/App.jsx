@@ -5,11 +5,13 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useEffect } from "react";
 import { getIngredients } from "../services/slices/burgerIngredientsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "./Loader/Loader";
 
 
 function App() {
    const dispatch = useDispatch()
+   const loaderVisible = useSelector( store => store.loader.visible)
 
    // получаем данные ингредиентов
    useEffect( () => {
@@ -19,6 +21,8 @@ function App() {
 
    return (
       <div>
+         { loaderVisible && <Loader/> }
+
          <AppHeader/>
          <main className="main wrapper pt-10 pb-10">
             <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
@@ -31,6 +35,7 @@ function App() {
             </div>
 
          </main>
+
       </div>
    )
 }

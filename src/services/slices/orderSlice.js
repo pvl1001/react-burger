@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { request } from "../../utils/request";
 import { NORMA_API } from "../../utils/burger-api";
+import { toggleLoader } from "./loaderSlice";
 
 
 const orderSlice = createSlice( {
@@ -30,6 +31,7 @@ const orderSlice = createSlice( {
 
 export const getOrderId = ( ingredientsId ) => async ( dispatch ) => {
    try {
+      dispatch( toggleLoader() )
       dispatch( getOrderIdRequest() )
       const { order, success } = await request( `${ NORMA_API }/orders`, {
          method: 'POST',
@@ -42,6 +44,8 @@ export const getOrderId = ( ingredientsId ) => async ( dispatch ) => {
       dispatch( getOrderIdFailed() )
       alert( 'Ошибка запроса заявки' )
       console.log( err )
+   } finally {
+      dispatch( toggleLoader() )
    }
 }
 

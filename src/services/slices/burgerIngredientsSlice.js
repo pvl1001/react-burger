@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { request } from "../../utils/request";
 import { NORMA_API } from "../../utils/burger-api";
 import { errorAPI } from "../../utils/variables";
+import { toggleLoader } from "./loaderSlice";
 
 
 const burgerIngredientsSlice = createSlice( {
@@ -31,6 +32,7 @@ const burgerIngredientsSlice = createSlice( {
 
 export const getIngredients = () => async ( dispatch ) => {
    try {
+      dispatch( toggleLoader() )
       dispatch( getIngredientsRequest() )
       const { data, success } = await request( `${ NORMA_API }/ingredients` )
       if ( success ) return dispatch( getIngredietnsSuccess( data ) )
@@ -39,6 +41,8 @@ export const getIngredients = () => async ( dispatch ) => {
       dispatch( getIngredientsFailed() )
       alert( errorAPI )
       console.error( err )
+   } finally {
+      dispatch( toggleLoader() )
    }
 }
 
