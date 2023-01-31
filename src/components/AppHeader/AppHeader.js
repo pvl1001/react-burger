@@ -10,24 +10,18 @@ function AppHeader() {
    const [ navBtns ] = useState( () => [
       {
          name: 'Конструктор',
-         isActive: true,
-         get icon() {
-            return <BurgerIcon type={ type( this.isActive ) }/>
-         },
+         path: '/',
+         icon: ( isActive ) => <BurgerIcon type={ type( isActive ) }/>
       },
       {
          name: 'Лента заказов',
-         isActive: false,
-         get icon() {
-            return <ListIcon type={ type( this.isActive ) }/>
-         },
+         path: '/feed',
+         icon: ( isActive ) => <ListIcon type={ type( isActive ) }/>
       },
       {
          name: 'Личный кабинет',
-         isActive: false,
-         get icon() {
-            return <ProfileIcon type={ type( this.isActive ) }/>
-         },
+         path: '/profile',
+         icon: ( isActive ) => <ProfileIcon type={ type( isActive ) }/>
       },
    ] )
 

@@ -1,11 +1,11 @@
 import React from 'react'
 
 
-function IngredientsIdPage() {
+function OrdersPage( props ) {
    return (
       <div></div>
    )
 }
 
 
-export default IngredientsIdPage
+export default OrdersPage

@@ -17,7 +17,10 @@ ConstructorOrder.propTypes = {
 
 function ConstructorOrder( { totalPrice, ingredientsId } ) {
    const dispatch = useDispatch()
-   const idRequest = useSelector( store => store.order.idRequest )
+   const { idRequest, user } = useSelector( store => ({
+      idRequest: store.order.idRequest,
+      user: store.auth.user,
+   }) )
    const { closeModal, showModal, visible } = useModal()
 
 
@@ -29,27 +32,34 @@ function ConstructorOrder( { totalPrice, ingredientsId } ) {
 
 
    return (
-      <div className={ s.order + ' mt-10 pr-4' }>
-         <p className={ s.price + ' text text_type_digits-medium mr-10' }>
-            { totalPrice } <CurrencyIcon type="primary"/>
-         </p>
+      <>
+         { !user && <p className={ `${ s.description } text text_type_main-default text_color_inactive` }>
+            Для оформления заказа необходимо авторизоваться</p> }
 
-         <Button
-            htmlType="button"
-            type="primary"
-            size="large"
-            disabled={ !ingredientsId.length || idRequest }
-            onClick={ showModalHandler }
-         >
-            Оформить заказ
-         </Button>
+         <div className={ s.order + ' mt-10 pr-4' }>
+            <p className={ `${ s.price } ${ !user ? 'text_color_inactive' : '' } text text_type_digits-medium mr-10` }>
+               { totalPrice } <CurrencyIcon type={ !user ? 'secondary' : 'primary' }/>
+            </p>
+
+            <Button
+               htmlType="button"
+               type="primary"
+               size="large"
+               disabled={ !ingredientsId.length || idRequest || !user }
+               onClick={ showModalHandler }
+            >
+               Оформить заказ
+            </Button>
+         </div>
+
+
 
          { visible &&
             <Modal onClose={ closeModal }>
                <OrderDetails/>
             </Modal>
          }
-      </div>
+      </>
    )
 }
 

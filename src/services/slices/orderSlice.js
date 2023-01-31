@@ -41,9 +41,8 @@ export const getOrderId = ( ingredientsId ) => async ( dispatch ) => {
       if ( success ) return dispatch( getOrderIdSuccess( order.number ) )
       dispatch( getOrderIdFailed() )
    } catch ( err ) {
+      console.log( 'Ошибка получения номера заявки: ' + err )
       dispatch( getOrderIdFailed() )
-      alert( 'Ошибка запроса заявки' )
-      console.log( err )
    } finally {
       dispatch( toggleLoader() )
    }

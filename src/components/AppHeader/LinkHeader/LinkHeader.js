@@ -1,23 +1,30 @@
 import s from './LinkHeader.module.scss'
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
+import { NavLink } from "react-router-dom"
 
 
 LinkHeader.propTypes = {
-   icon: PropTypes.node.isRequired,
-   isActive: PropTypes.bool.isRequired,
+   icon: PropTypes.func.isRequired,
+   path: PropTypes.string.isRequired,
    name: PropTypes.string.isRequired,
    className: PropTypes.string,
 }
 
 
-function LinkHeader( { icon, isActive, name, className = '' } ) {
-   const textStyle = isActive ? '' : 'text_color_inactive'
+function LinkHeader( { icon, path, name, className = '' } ) {
 
    return (
-      <a href={' '} type="button" className={ `${ s._ } ${ className } p-5` }>
-         <span className="mr-2">{ icon }</span>
-         <span className={ "text text_type_main-default " + textStyle }>{ name }</span>
-      </a>
+      <NavLink
+         to={ path }
+         className={ `${ s._ } ${ className } p-5` }>
+         { ( { isActive } ) =>
+            <>
+               <span className="mr-2">{ icon( isActive ) }</span>
+               <span className={ `text text_type_main-default ${ !isActive && 'text_color_inactive' }` }>
+                  { name }</span>
+            </>
+         }
+      </NavLink>
    )
 }
 

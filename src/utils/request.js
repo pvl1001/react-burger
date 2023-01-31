@@ -1,8 +1,9 @@
-function checkResponse( res ) {
-   if ( res.ok ) return res.json()
-   return Promise.reject( `Ошибка ${ res.status }` )
-}
-
 export async function request( url, options ) {
-   return await fetch( url, options ).then( checkResponse )
+   try {
+      const res = await fetch( url, options )
+      if ( res.ok ) return await res.json()
+      throw res
+   } catch ( err ) {
+      console.log( 'Ошибка запроса: ' + err.status )
+   }
 }
