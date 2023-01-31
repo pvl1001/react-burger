@@ -5,11 +5,29 @@
 @import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css'; // типография
 
 
+html {
+   display: table;
+   width: 100%;
+}
+
 body {
+   display: table-cell;
    font-family: 'Jet Brains Mono', 'Arial', serif;
    background-color: $bg-color;
    color: $text-color;
    padding: 20px 40px;
+}
+
+#root, body {
+   height: inherit;
+}
+
+#root, .main {
+   display: flex;
+   flex-direction: column;
+    > * {
+       width: 100%;
+    }
 }
 
 .wrapper {
@@ -19,8 +37,11 @@ body {
 }
 
 .main {
+   flex: 1;
    box-sizing: border-box;
    padding: 0 20px;
+   justify-content: center;
+   align-items: center;
 }
 
 .main-row {
