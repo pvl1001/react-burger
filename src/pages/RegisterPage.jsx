@@ -1,35 +1,34 @@
-import { useState } from 'react'
 import s from "./LoginPage/LoginPage.module.scss"
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { userRegister } from "../services/slices/authSlice";
+import { useForm } from "../hooks/useForm";
 
 
 function RegisterPage() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-   const [ value, setValue ] = useState( { name: '', email: '', password: '' } )
+   const { values, handleChange } = useForm( { name: '', email: '', password: '' } )
 
-   function onChange( e ) {
-      setValue( prev => ({ ...prev, [e.target.name]: e.target.value }) )
-   }
+   async function onSubmit( e ) {
+      e.preventDefault()
 
-   async function onClickHandler() {
-      const { success } = await dispatch( userRegister( value ) )
+      const { success } = await dispatch( userRegister( values ) )
       if ( success ) navigate( '/login' )
    }
 
 
    return (
-      <form className={ s.form }>
-         <h5 className="text text_type_main-medium mb-6">Вход</h5>
+      <form className={ s.form } onSubmit={ onSubmit }>
+         <h5 className="text text_type_main-medium mb-6">Регистрация</h5>
 
          <Input
+            required
             type={ 'text' }
             placeholder={ 'Имя' }
-            onChange={ onChange }
-            value={ value.name }
+            onChange={ handleChange }
+            value={ values.name }
             name={ 'name' }
             error={ false }
             errorText={ 'Ошибка' }
@@ -38,25 +37,26 @@ function RegisterPage() {
          />
 
          <EmailInput
+            required
             extraClass={ 'mb-6' }
-            onChange={ onChange }
-            value={ value.email }
+            onChange={ handleChange }
+            value={ values.email }
             name={ 'email' }
          />
 
          <PasswordInput
+            required
             extraClass={ 'mb-6' }
-            onChange={ onChange }
-            value={ value.password }
+            onChange={ handleChange }
+            value={ values.password }
             name={ 'password' }
          />
 
          <Button
             extraClass={ s.button + ' mb-20' }
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
-            onClick={ onClickHandler }
          >Зарегистрироваться</Button>
 
          <p className={ 'text text_type_main-default text_color_inactive' }>

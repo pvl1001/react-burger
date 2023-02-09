@@ -1,21 +1,17 @@
-import { useState } from 'react'
 import s from "./LoginPage/LoginPage.module.scss"
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
 import { toggleLoader } from "../services/slices/loaderSlice";
 import { useDispatch } from "react-redux";
 import { resetPasswordRequest } from "../utils/burger-api";
+import { useForm } from "../hooks/useForm";
 
 
 function ResetPasswordPage() {
    const dispatch = useDispatch()
    const location = useLocation()
    const navigate = useNavigate()
-   const [ value, setValue ] = useState( { token: '', password: '' } )
-
-   function onChange( e ) {
-      setValue( prev => ({ ...prev, [e.target.name]: e.target.value }) )
-   }
+   const { values, handleChange } = useForm( { token: '', password: '' } )
 
    async function onSubmit( e ) {
       e.preventDefault()
@@ -23,12 +19,12 @@ function ResetPasswordPage() {
       try {
          dispatch( toggleLoader() )
          const { success } = await resetPasswordRequest( {
-            password: value.password,
-            token: value.token
+            password: values.password,
+            token: values.token
          } )
          if ( success ) navigate( '/login' )
       } catch ( err ) {
-         console.log( 'Ошибка запроса! ' + err, value )
+         console.log( 'Ошибка запроса! ' + err, values )
       } finally {
          dispatch( toggleLoader() )
       }
@@ -44,18 +40,20 @@ function ResetPasswordPage() {
          <h5 className="text text_type_main-medium mb-6">Восстановление пароля</h5>
 
          <PasswordInput
+            required
             placeholder={ 'Введите новый пароль' }
             extraClass={ 'mb-6' }
-            onChange={ onChange }
-            value={ value.password }
+            onChange={ handleChange }
+            value={ values.password }
             name={ 'password' }
          />
 
          <Input
+            required
             type={ 'text' }
             placeholder={ 'Введите код из письма' }
-            onChange={ onChange }
-            value={ value.token }
+            onChange={ handleChange }
+            value={ values.token }
             name={ 'token' }
             error={ false }
             errorText={ 'Ошибка' }

@@ -24,7 +24,7 @@ export async function authRequest( refreshToken ) {
       console.log( 'Ошибка авторизации: ' + err.status )
       if ( err?.status === 403 ) {
          const authToken = await getRefreshTokenRequest()
-         return authRequest( authToken )
+         await authRequest( authToken )
       }
    }
 }

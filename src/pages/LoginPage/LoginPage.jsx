@@ -1,24 +1,20 @@
 import s from './LoginPage.module.scss'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../services/slices/authSlice";
+import { useForm } from "../../hooks/useForm";
 
 
 function LoginPage() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const location = useLocation()
-   const [ value, setValue ] = useState( { email: '', password: '' } )
-
-   function onChange( e ) {
-      setValue( prev => ({ ...prev, [e.target.name]: e.target.value }) )
-   }
+   const { values, handleChange } = useForm( { email: '', password: '' } )
 
    async function onSubmit( e ) {
       e.preventDefault()
-      const { success } = await dispatch( userLogin( value ) )
+      const { success } = await dispatch( userLogin( values ) )
       if ( success ) navigate( location.state.pathfrom || '/' )
    }
 
@@ -28,16 +24,18 @@ function LoginPage() {
          <h5 className="text text_type_main-medium mb-6">Вход</h5>
 
          <EmailInput
+            required
             extraClass={ 'mb-6' }
-            onChange={ onChange }
-            value={ value.email }
+            onChange={ handleChange }
+            value={ values.email }
             name={ 'email' }
          />
 
          <PasswordInput
+            required
             extraClass={ 'mb-6' }
-            onChange={ onChange }
-            value={ value.password }
+            onChange={ handleChange }
+            value={ values.password }
             name={ 'password' }
          />
 

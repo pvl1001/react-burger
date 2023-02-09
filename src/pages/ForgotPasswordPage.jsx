@@ -1,29 +1,24 @@
-import { useState } from 'react'
 import s from "./LoginPage/LoginPage.module.scss"
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { forgotPasswordRequest } from "../utils/burger-api"
 import { useDispatch } from "react-redux"
 import { toggleLoader } from "../services/slices/loaderSlice"
+import { useForm } from "../hooks/useForm";
 
 
 function ForgotPasswordPage() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
    const location = useLocation()
-   const [ value, setValue ] = useState( { email: '' } )
-
-
-   function onChange( e ) {
-      setValue( prev => ({ ...prev, [e.target.name]: e.target.value }) )
-   }
+   const { values, handleChange } = useForm( { email: '' } )
 
    async function onSubmit( e ) {
       e.preventDefault()
 
       try {
          dispatch( toggleLoader() )
-         const { success } = await forgotPasswordRequest( value )
+         const { success } = await forgotPasswordRequest( values )
          if ( success ) navigate( '/reset-password', { state: { pathfrom: location.pathname } } )
       } catch ( err ) {
          console.log( 'Ошибка запроса! ' + err )
@@ -39,10 +34,11 @@ function ForgotPasswordPage() {
          <h5 className="text text_type_main-medium mb-6">Восстановление пароля</h5>
 
          <EmailInput
+            required
             placeholder={ 'Укажите e-mail' }
             extraClass={ 'mb-6' }
-            onChange={ onChange }
-            value={ value.email }
+            onChange={ handleChange }
+            value={ values.email }
             name={ 'email' }
          />
 
