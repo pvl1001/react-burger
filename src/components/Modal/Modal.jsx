@@ -17,9 +17,9 @@ Modal.propTypes = {
 function Modal( { children, header, onClose } ) {
    const navigate = useNavigate()
 
-   function onCloseHandler() {
-      onClose()
-      navigate('/')
+   function onCloseHandler( e ) {
+      onClose( e )
+      navigate( '/' )
    }
 
    // закрыть окно при нажатии "Escape"
