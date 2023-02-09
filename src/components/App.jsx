@@ -19,6 +19,8 @@ import { getIngredients } from "../services/slices/burgerIngredientsSlice"
 import Modal from "./Modal/Modal";
 import IngredientDetails from "./IngredientDetails/IngredientDetails";
 import { clearIngredientModal } from "../services/slices/currentIngredientSlice";
+import { getCookie } from "../utils/setCookie";
+import { getUser } from "../services/slices/authSlice";
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
    // получаем данные ингредиентов
    useEffect( () => {
       dispatch( getIngredients() )
+
+      if ( getCookie( 'token' ) ) dispatch( getUser() )
    }, [] )
 
    function onCloseModal() {
