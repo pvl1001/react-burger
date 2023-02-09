@@ -26,8 +26,12 @@ function ConstructorOrder( { totalPrice, ingredientsId } ) {
 
    async function showModalHandler( e ) {
       await dispatch( getOrderId( ingredientsId ) )
-      dispatch( clearConstructor() )
       showModal( e )
+   }
+
+   function closeModalHandler( e ) {
+      dispatch( clearConstructor() )
+      closeModal( e )
    }
 
 
@@ -53,9 +57,8 @@ function ConstructorOrder( { totalPrice, ingredientsId } ) {
          </div>
 
 
-
          { visible &&
-            <Modal onClose={ closeModal }>
+            <Modal onClose={ closeModalHandler }>
                <OrderDetails/>
             </Modal>
          }
