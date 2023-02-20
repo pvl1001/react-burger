@@ -1,13 +1,12 @@
 import s from './CardIngredients.module.scss'
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../../Modal/Modal";
 import { dataPropTypes } from "../../../utils/propTypes";
-import IngredientDetails from "../../IngredientDetails/IngredientDetails";
 import useModal from "../../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
-import { clearIngredientModal, getIngredientModal } from "../../../services/slices/currentIngredientSlice";
+import { getIngredientModal } from "../../../services/slices/currentIngredientSlice";
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 CardIngredients.propTypes = {
@@ -17,23 +16,21 @@ CardIngredients.propTypes = {
 
 function CardIngredients( { data } ) {
    const dispatch = useDispatch()
-   const { closeModal, showModal, visible } = useModal()
+   const navigate = useNavigate()
+   const location = useLocation()
+
+   const { visible } = useModal()
    const { bun, ingredients } = useSelector( store => store.burgerConstructor )
    const [ , cardRef ] = useDrag( {
       type: 'ingredient',
       item: data,
    } )
 
-   function showModalHandler( e ) {
+   function showModalHandler() {
       if ( !visible ) {
-         showModal( e )
          dispatch( getIngredientModal( data ) )
+         navigate( `ingredients/${ data._id }`, { state: { background: location } } )
       }
-   }
-
-   function closeModalHandler( e ) {
-      closeModal( e )
-      dispatch( clearIngredientModal() )
    }
 
    const count = useMemo( () => [ ...ingredients, bun ].reduce( ( acc, el ) => {
@@ -57,15 +54,6 @@ function CardIngredients( { data } ) {
             { data.price }<CurrencyIcon type="primary"/></p>
 
          <p className={ s.name + ' text text_type_main-small' }>{ data.name }</p>
-
-         { visible &&
-            <Modal
-               header={ 'Детали ингредиента' }
-               onClose={ closeModalHandler }
-            >
-               <IngredientDetails data={ data }/>
-            </Modal>
-         }
       </li>
    )
 }

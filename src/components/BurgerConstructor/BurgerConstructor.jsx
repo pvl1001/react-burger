@@ -10,10 +10,7 @@ import { addItemConstructor } from "../../services/slices/burgerConstructorSlice
 function reducer( state, action ) {
    switch ( action.type ) {
       case 'sum':
-         return action.payload.reduce( ( total, el ) => {
-            if ( el.type === 'bun' ) return total + el.price * 2
-            return total + el.price
-         }, 0 )
+         return action.payload.reduce( ( total, el ) => total + el.price, 0 )
       default:
          return state
    }
@@ -29,9 +26,7 @@ function BurgerConstructor() {
 
    const [ stateTotalPrice, dispatchTotalPrice ] = useReducer( reducer, 0 )
 
-   const allIngredients = bun
-      ? [ ...constructorIngredients, bun ]
-      : constructorIngredients
+   const order = bun ? [ bun, ...constructorIngredients, bun ] : constructorIngredients
 
    const [ { isOver, canDrop }, dropTargetRef ] = useDrop( {
       accept: 'ingredient',
@@ -52,7 +47,7 @@ function BurgerConstructor() {
 
    // рассчитать стоимость заказа
    useEffect( () => {
-      dispatchTotalPrice( { type: 'sum', payload: allIngredients } )
+      dispatchTotalPrice( { type: 'sum', payload: order } )
    }, [ constructorIngredients, bun ] )
 
 
@@ -63,7 +58,7 @@ function BurgerConstructor() {
             style={ { borderColor } }
             className={ s.constructor }
          >
-            { allIngredients.length
+            { order.length
                ? <>
                   { bun && <ConstructorItem
                      className={ 'pl-4 pr-4 pb-4' }
@@ -91,12 +86,13 @@ function BurgerConstructor() {
                </>
                : <p className={ `${ s.item_empty } text text_type_main-default text_color_inactive` }>
                   Добавьте ингредиенты
-               </p> }
+               </p>
+            }
          </div>
 
          <ConstructorOrder
             totalPrice={ stateTotalPrice }
-            ingredientsId={ constructorIngredients.map( el => el._id ) }
+            ingredientsId={ order.map( el => el._id ) }
          />
 
       </section>

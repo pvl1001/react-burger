@@ -4,9 +4,11 @@ import burgerConstructorSlice from "./slices/burgerConstructorSlice"
 import orderSlice from "./slices/orderSlice";
 import currentIngredientSlice from "./slices/currentIngredientSlice";
 import loaderSlice from "./slices/loaderSlice";
+import authSlice from "./slices/authSlice";
 
 export const store = configureStore( {
    reducer: {
+      auth: authSlice,
       burgerIngredients: burgerIngredientsSlice,
       burgerConstructor: burgerConstructorSlice,
       currentIngredient: currentIngredientSlice,

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "./ModalOverlay";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 Modal.propTypes = {
@@ -14,6 +15,13 @@ Modal.propTypes = {
 
 
 function Modal( { children, header, onClose } ) {
+   const navigate = useNavigate()
+
+   function onCloseHandler( e ) {
+      onClose( e )
+      navigate( '/' )
+   }
+
    // закрыть окно при нажатии "Escape"
    useEffect( () => {
       function keydownHandler( e ) {
@@ -30,7 +38,7 @@ function Modal( { children, header, onClose } ) {
 
          <div className={ s.modal + ' pt-10 pl-10 pr-10 pb-15' }>
 
-            <button className={ s.close_btn } onClick={ onClose }>
+            <button className={ s.close_btn } onClick={ onCloseHandler }>
                <CloseIcon type="primary"/>
             </button>
 
@@ -39,7 +47,7 @@ function Modal( { children, header, onClose } ) {
             { children }
          </div>
 
-         <ModalOverlay onClose={ onClose }/>
+         <ModalOverlay onClose={ onCloseHandler }/>
       </div>,
       document.getElementById( 'modal' )
    )
