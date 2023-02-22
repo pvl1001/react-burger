@@ -41,9 +41,6 @@ const authSlice = createSlice( {
          state.authRequest = false
          state.user = action.payload
       },
-      signIn( state, action ) {
-         state.user = action.payload
-      },
       logOut( state ) {
          state.user = null
       },
@@ -80,7 +77,7 @@ export const userLogin = ( value ) => async ( dispatch ) => {
          dispatch( getTokenSuccess( res ) )
          const authToken = res.accessToken.split( 'Bearer ' )[1]
          setCookie( 'token', authToken )
-         localStorage.setItem( 'refreshToken', res.refreshToken )
+         setCookie( 'refreshToken', res.refreshToken )
          return res
       }
       dispatch( getAuthFailed() )
@@ -97,12 +94,14 @@ export const userLogout = ( value ) => async ( dispatch ) => {
    try {
       dispatch( getAuthRequest() )
       dispatch( toggleLoader() )
-      const { success } = await logoutRequest()
+      const { success, message } = await logoutRequest()
 
       if ( success ) {
-         deleteCookie('token')
-         localStorage.clear()
-         return dispatch( logOut() )
+         console.log( message )
+         deleteCookie( 'token' )
+         deleteCookie( 'refreshToken' )
+         dispatch( logOut() )
+         return success
       }
       dispatch( getAuthFailed() )
    } catch ( err ) {
@@ -119,12 +118,10 @@ export const getUser = () => async ( dispatch ) => {
       dispatch( getAuthRequest() )
       dispatch( toggleLoader() )
       const res = await authRequest()
-
       if ( res.success ) return dispatch( getUserSuccess( res.user ) )
       dispatch( getAuthFailed() )
    } catch ( err ) {
       dispatch( getAuthFailed() )
-      console.log( 'Ошибка getUser: ' + err.message )
    } finally {
       dispatch( toggleLoader() )
    }
