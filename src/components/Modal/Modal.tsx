@@ -3,7 +3,6 @@ import ReactDOM from "react-dom"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "./ModalOverlay";
 import { FC, PropsWithChildren, SyntheticEvent, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 
 interface IModalProps {
@@ -12,11 +11,9 @@ interface IModalProps {
 }
 
 const Modal: FC<PropsWithChildren<IModalProps>> = ( { children, header, onClose } ) => {
-   const navigate = useNavigate()
 
    function onCloseHandler( e: SyntheticEvent ) {
       onClose( e )
-      navigate( '/' )
    }
 
    // закрыть окно при нажатии "Escape"
