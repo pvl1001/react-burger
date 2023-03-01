@@ -2,6 +2,7 @@ import s from './AppHeader.module.scss'
 import LinkHeader from "./LinkHeader/LinkHeader";
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 const AppHeader: FC = () => {
@@ -30,7 +31,7 @@ const AppHeader: FC = () => {
       <header className={ s._ }>
          <div className={ s.wrapper + ' wrapper' }>
 
-            <div className={ s.logo }><Logo/></div>
+            <Link to={'/'} className={ s.logo }><Logo/></Link>
 
             <nav className={ s.nav }>
                <ul className={ s.list }>
