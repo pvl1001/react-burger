@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { request } from "../../utils/request";
 import { NORMA_API } from "../../utils/burger-api";
-import { errorAPI } from "../../utils/variables";
 import { toggleLoader } from "./loaderSlice";
 
 
@@ -39,8 +38,6 @@ export const getIngredients = () => async ( dispatch ) => {
       dispatch( getIngredientsFailed() )
    } catch ( err ) {
       dispatch( getIngredientsFailed() )
-      alert( errorAPI )
-      console.error( err )
    } finally {
       dispatch( toggleLoader() )
    }
