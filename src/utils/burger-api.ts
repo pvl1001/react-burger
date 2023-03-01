@@ -1,6 +1,14 @@
 import { getCookie, setCookie } from "./setCookie";
 import { checkResponse, request } from "./request";
-import { IUserForm, IResponseUser, IResponseAuth, ILoginForm, TRequestLogin, IResetForm, IEmailForm } from "./types";
+import {
+   IUserForm,
+   IResponseUser,
+   IResponseAuth,
+   ILoginForm,
+   TRequestLogin,
+   IResetForm,
+   IEmailForm,
+} from "./types";
 
 export const NORMA_API = 'https://norma.nomoreparties.space/api'
 
@@ -9,31 +17,22 @@ const refreshToken = getCookie( 'refreshToken' )
 
 
 export const authRequest = async ( newToken?: string ): Promise<IResponseUser | void> => {
-   try {
-      if ( newToken || token ) {
-         const res = await fetch( `${ NORMA_API }/auth/user`, {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-               'Content-Type': 'application/json',
-               Authorization: `Bearer ${ newToken || token }`,
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer',
-         } )
-         return await checkResponse( res )
-      }
-      throw { message: 'Отсутствует JWT - необходимо авторизоваться' }
-   } catch ( error: any ) {
-      console.log( `Ошибка запроса ${ error.status || '' }: ${ error.message }` )
-
-      if ( error.status === 403 ) {
-         const newToken = await getRefreshTokenRequest()
-         await authRequest( newToken )
-      }
+   if ( newToken || token ) {
+      const res = await fetch( `${ NORMA_API }/auth/user`, {
+         method: 'GET',
+         mode: 'cors',
+         cache: 'no-cache',
+         credentials: 'same-origin',
+         headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${ newToken || token }`,
+         },
+         redirect: 'follow',
+         referrerPolicy: 'no-referrer',
+      } )
+      return await checkResponse( res )
    }
+   throw { message: 'Отсутствует JWT - необходимо авторизоваться' }
 }
 
 
@@ -58,7 +57,7 @@ export const getRefreshTokenRequest = async (): Promise<string> => {
       }
       throw res
    }
-   throw { message: 'Отсутствует JWT - необходимо авторизоваться' }
+   throw { message: 'Отсутствует refreshToken - необходимо авторизоваться' }
 }
 
 

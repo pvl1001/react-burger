@@ -5,10 +5,6 @@ export async function checkResponse( res: Response ) {
 }
 
 export async function request( url: string, options: any ) {
-   try {
-      const res = await fetch( url, options )
-      return await checkResponse( res )
-   } catch ( err: any ) {
-      console.log( `Ошибка ${ err.status }: ${ err.message }` )
-   }
+   const res = await fetch( url, options )
+   return await checkResponse( res )
 }

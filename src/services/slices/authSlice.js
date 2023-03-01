@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { toggleLoader } from "./loaderSlice";
 import {
    authRequest,
+   getRefreshTokenRequest,
    loginRequest,
    logoutRequest,
    patchUserRequest,
@@ -84,6 +85,11 @@ export const userLogin = ( value ) => async ( dispatch ) => {
    } catch ( err ) {
       dispatch( getAuthFailed() )
       console.log( 'Ошибка userLogin: ' + err.message, value )
+
+      if ( err.status === 403 ) {
+         const newToken = await getRefreshTokenRequest()
+         await authRequest( newToken )
+      }
    } finally {
       dispatch( toggleLoader() )
    }
