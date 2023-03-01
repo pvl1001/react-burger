@@ -2,24 +2,20 @@ import s from './Modal.module.scss'
 import ReactDOM from "react-dom"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "./ModalOverlay";
-import { FC, PropsWithChildren, SyntheticEvent, useEffect } from "react";
+import { FC, PropsWithChildren, useEffect } from "react";
 
 
 interface IModalProps {
    header?: string
-   onClose( e: SyntheticEvent ): void
+   onClose(): void
 }
 
 const Modal: FC<PropsWithChildren<IModalProps>> = ( { children, header, onClose } ) => {
 
-   function onCloseHandler( e: SyntheticEvent ) {
-      onClose( e )
-   }
-
    // закрыть окно при нажатии "Escape"
    useEffect( () => {
-      function keydownHandler( e: SyntheticEvent | KeyboardEvent ) {
-         if ( (e as KeyboardEvent).key === 'Escape' ) onClose( e as SyntheticEvent )
+      function keydownHandler( e: KeyboardEvent ) {
+         if ( e.key === 'Escape' ) onClose()
       }
 
       document.addEventListener( 'keydown', keydownHandler )
@@ -32,7 +28,7 @@ const Modal: FC<PropsWithChildren<IModalProps>> = ( { children, header, onClose 
 
          <div className={ s.modal + ' pt-10 pl-10 pr-10 pb-15' }>
 
-            <button className={ s.close_btn } onClick={ onCloseHandler }>
+            <button className={ s.close_btn } onClick={ onClose }>
                <CloseIcon type="primary"/>
             </button>
 
@@ -42,7 +38,7 @@ const Modal: FC<PropsWithChildren<IModalProps>> = ( { children, header, onClose 
             { children }
          </div>
 
-         <ModalOverlay onClose={ onCloseHandler }/>
+         <ModalOverlay onClose={ onClose }/>
       </div>,
       document.getElementById( 'modal' ) as HTMLElement
    )

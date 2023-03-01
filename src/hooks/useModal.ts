@@ -1,20 +1,18 @@
-import { SyntheticEvent, useState } from 'react';
+import { useState } from 'react';
 
 
 function useModal() {
    const [ visible, setVisible ] = useState<boolean>( false )
 
-   function closeModal( e: SyntheticEvent ) {
-      e.stopPropagation()
+   function closeModal() {
       setVisible( false )
    }
 
-   function showModal( e: SyntheticEvent ) {
-      e.stopPropagation()
+   function showModal() {
       setVisible( true )
    }
 
-   return { visible, closeModal, showModal  }
+   return { visible, closeModal, showModal }
 }
 
 

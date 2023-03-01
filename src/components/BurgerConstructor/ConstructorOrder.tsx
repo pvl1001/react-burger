@@ -6,7 +6,7 @@ import useModal from "../../hooks/useModal";
 import { getOrderId } from "../../services/slices/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { clearConstructor } from "../../services/slices/burgerConstructorSlice";
-import { FC, SyntheticEvent } from "react";
+import { FC } from "react";
 import { AppDispatch, RootState } from "../../services/store";
 
 
@@ -24,14 +24,14 @@ const ConstructorOrder: FC<IConstructorOrderProps> = ( { totalPrice, ingredients
    const { closeModal, showModal, visible } = useModal()
 
 
-   async function showModalHandler( e: SyntheticEvent ) {
+   async function showModalHandler() {
       await dispatch( getOrderId( ingredientsId ) )
-      showModal( e )
+      showModal()
    }
 
-   function closeModalHandler( e: SyntheticEvent ) {
+   function closeModalHandler() {
       dispatch( clearConstructor() )
-      closeModal( e )
+      closeModal()
    }
 
 
