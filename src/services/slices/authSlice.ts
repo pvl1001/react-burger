@@ -9,17 +9,30 @@ import {
    registerRequest
 } from "../../utils/burger-api";
 import { deleteCookie, setCookie } from "../../utils/setCookie";
+import { AppDispatch } from "../store";
+import { ILoginForm, IUser, TStoreUser } from "../../utils/types";
+
+
+type TInitialState = {
+   user: null | TStoreUser
+   accessToken: string
+   refreshToken: string
+   authRequest: boolean
+   authFailed: boolean
+}
+
+const initialState: TInitialState = {
+   user: null,
+   accessToken: '',
+   refreshToken: '',
+   authRequest: false,
+   authFailed: false,
+}
 
 
 const authSlice = createSlice( {
    name: 'auth',
-   initialState: {
-      user: null,
-      accessToken: '',
-      refreshToken: '',
-      authRequest: false,
-      authFailed: false,
-   },
+   initialState,
    reducers: {
       getAuthRequest( state ) {
          state.authRequest = true
@@ -27,7 +40,9 @@ const authSlice = createSlice( {
       getAuthFailed( state ) {
          state.authRequest = false
          state.authFailed = true
-         state.authFailed = ''
+         state.accessToken = ''
+         state.refreshToken = ''
+         state.user = null
       },
       getTokenSuccess( state, action ) {
          const { accessToken, refreshToken, user } = action.payload
@@ -50,7 +65,7 @@ const authSlice = createSlice( {
 
 
 // регистрация пользователя
-export const userRegister = ( value ) => async ( dispatch ) => {
+export const userRegister = ( value: IUser ) => async ( dispatch: AppDispatch ) => {
    try {
       dispatch( getAuthRequest() )
       dispatch( toggleLoader() )
@@ -60,7 +75,7 @@ export const userRegister = ( value ) => async ( dispatch ) => {
          return res
       }
       dispatch( getAuthFailed() )
-   } catch ( err ) {
+   } catch ( err: any ) {
       dispatch( getAuthFailed() )
       console.log( 'Ошибка userRegister: ' + err.message, value )
    } finally {
@@ -69,7 +84,7 @@ export const userRegister = ( value ) => async ( dispatch ) => {
 }
 
 // вход пользователя
-export const userLogin = ( value ) => async ( dispatch ) => {
+export const userLogin = ( value: ILoginForm ) => async ( dispatch: AppDispatch ) => {
    try {
       dispatch( getAuthRequest() )
       dispatch( toggleLoader() )
@@ -82,7 +97,7 @@ export const userLogin = ( value ) => async ( dispatch ) => {
          return res
       }
       dispatch( getAuthFailed() )
-   } catch ( err ) {
+   } catch ( err: any ) {
       dispatch( getAuthFailed() )
       console.log( 'Ошибка userLogin: ' + err.message, value )
 
@@ -96,7 +111,7 @@ export const userLogin = ( value ) => async ( dispatch ) => {
 }
 
 // выход пользователя
-export const userLogout = ( value ) => async ( dispatch ) => {
+export const userLogout = () => async ( dispatch: AppDispatch ) => {
    try {
       dispatch( getAuthRequest() )
       dispatch( toggleLoader() )
@@ -110,16 +125,16 @@ export const userLogout = ( value ) => async ( dispatch ) => {
          return success
       }
       dispatch( getAuthFailed() )
-   } catch ( err ) {
+   } catch ( err: any ) {
       dispatch( getAuthFailed() )
-      console.log( 'Ошибка userLogout: ' + err.message, value )
+      console.log( 'Ошибка userLogout: ' + err.message )
    } finally {
       dispatch( toggleLoader() )
    }
 }
 
 // получить данные пользователя
-export const getUser = () => async ( dispatch ) => {
+export const getUser = () => async ( dispatch: AppDispatch ) => {
    try {
       dispatch( getAuthRequest() )
       dispatch( toggleLoader() )
@@ -134,7 +149,7 @@ export const getUser = () => async ( dispatch ) => {
 }
 
 // обновить данные пользователя
-export const patchUser = ( form ) => async ( dispatch ) => {
+export const patchUser = ( form: IUser ) => async ( dispatch: AppDispatch ) => {
    try {
       dispatch( getAuthRequest() )
       dispatch( toggleLoader() )
@@ -142,7 +157,7 @@ export const patchUser = ( form ) => async ( dispatch ) => {
 
       if ( success ) return dispatch( getUserSuccess( user ) )
       dispatch( getAuthFailed() )
-   } catch ( err ) {
+   } catch ( err: any ) {
       dispatch( getAuthFailed() )
       console.log( 'Ошибка patchUser: ' + err.message )
    } finally {

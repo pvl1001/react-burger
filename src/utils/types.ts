@@ -22,6 +22,11 @@ export interface IUser {
    token: string
 }
 
+export type TStoreUser = {
+   email: string
+   name: string
+}
+
 export interface ILoginForm {
    login: string
    password: string
@@ -43,10 +48,6 @@ export type TRequestLogin = IResponseUser & IResponseToken
 export interface IResponseAuth {
    success: boolean
    message: string
-}
-
-export interface IUserForm extends IUser {
-   password: string
 }
 
 export interface IResetForm {

@@ -1,13 +1,12 @@
 import { getCookie, setCookie } from "./setCookie";
 import { checkResponse, request } from "./request";
 import {
-   IUserForm,
    IResponseUser,
    IResponseAuth,
    ILoginForm,
    TRequestLogin,
    IResetForm,
-   IEmailForm,
+   IEmailForm, IUser,
 } from "./types";
 
 export const NORMA_API = 'https://norma.nomoreparties.space/api'
@@ -16,7 +15,7 @@ const token = getCookie( 'token' )
 const refreshToken = getCookie( 'refreshToken' )
 
 
-export const authRequest = async ( newToken?: string ): Promise<IResponseUser | void> => {
+export const authRequest = async ( newToken?: string ): Promise<IResponseUser> => {
    if ( newToken || token ) {
       const res = await fetch( `${ NORMA_API }/auth/user`, {
          method: 'GET',
@@ -61,7 +60,7 @@ export const getRefreshTokenRequest = async (): Promise<string> => {
 }
 
 
-export const patchUserRequest = async ( data: IUserForm ): Promise<IResponseUser> => {
+export const patchUserRequest = async ( data: IUser ): Promise<IResponseUser> => {
    return await request( `${ NORMA_API }/auth/user`, {
       method: 'PATCH',
       mode: 'cors',
@@ -109,7 +108,7 @@ export const loginRequest = async ( data: ILoginForm ): Promise<TRequestLogin> =
 }
 
 
-export const registerRequest = async ( data: IUserForm ): Promise<IResponseAuth> => {
+export const registerRequest = async ( data: IUser ): Promise<IResponseAuth> => {
    return await request( `${ NORMA_API }/auth/register`, {
       method: 'POST',
       mode: 'cors',

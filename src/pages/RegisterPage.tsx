@@ -16,8 +16,8 @@ const RegisterPage: FC = () => {
    async function onSubmit( e: FormEvent<HTMLFormElement> ) {
       e.preventDefault()
 
-      const { success } = await dispatch( userRegister( values ) as any )
-      if ( success ) navigate( '/login' )
+      const res = await dispatch( userRegister( values ) )
+      if ( res?.success ) navigate( '/login' )
    }
 
 

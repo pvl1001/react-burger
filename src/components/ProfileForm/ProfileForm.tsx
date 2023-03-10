@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from "../../services/store";
 
 
 interface IInput {
-   type?: 'text' | 'email' | 'password'
+   type: 'text' | 'email' | 'password'
    name: string
    placeholder: string
    value: string
@@ -98,10 +98,11 @@ const ProfileForm: FC = () => {
       setIsShowBtns( false )
    }
 
-   function onSubmit( e: FormEvent<HTMLFormElement> ) {
+   async function onSubmit( e: FormEvent<HTMLFormElement> ) {
       e.preventDefault()
-      const user = inputs.reduce( ( total, el ) => ({ ...total, [el.name]: el.value }), {} )
-      dispatch( patchUser( user ) )
+      const user: any = inputs.reduce( ( total, el ) => ({ ...total, [el.name]: el.value }), {} )
+      debugger
+      await dispatch( patchUser( user ) )
 
       setIsShowBtns( false )
       setInputs( prev => prev.map( el => ({ ...el, disabled: true }) ) )
