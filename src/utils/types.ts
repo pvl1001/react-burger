@@ -19,7 +19,7 @@ export interface IUser {
    email: string
    name: string
    password: string
-   token: string
+   token?: string
 }
 
 export type TStoreUser = {

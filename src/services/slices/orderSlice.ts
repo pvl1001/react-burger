@@ -3,15 +3,24 @@ import { request } from "../../utils/request";
 import { NORMA_API } from "../../utils/burger-api";
 import { toggleLoader } from "./loaderSlice";
 import { getCookie } from "../../utils/setCookie";
+import { AppDispatch } from "../store";
 
+
+type TInitialState = {
+   id: string,
+   idRequest: boolean,
+   idFailed: boolean,
+}
+
+const initialState: TInitialState = {
+   id: '',
+   idRequest: false,
+   idFailed: false,
+}
 
 const orderSlice = createSlice( {
    name: 'order',
-   initialState: {
-      id: '',
-      idRequest: false,
-      idFailed: false,
-   },
+   initialState,
    reducers: {
       getOrderIdSuccess( state, action ) {
          state.id = action.payload
@@ -30,7 +39,7 @@ const orderSlice = createSlice( {
 } )
 
 
-export const getOrderId = ( ingredientsId ) => async ( dispatch ) => {
+export const getOrderId = ( ingredientsId: string[] ) => async ( dispatch: AppDispatch ) => {
    try {
       dispatch( toggleLoader() )
       dispatch( getOrderIdRequest() )
@@ -38,7 +47,7 @@ export const getOrderId = ( ingredientsId ) => async ( dispatch ) => {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + getCookie('token')
+            Authorization: 'Bearer ' + getCookie( 'token' )
          },
          body: JSON.stringify( { ingredients: ingredientsId } )
       } )

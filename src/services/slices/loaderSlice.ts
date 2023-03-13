@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 
+const initialState: { visible: boolean } = {
+   visible: false
+}
+
 const loaderSlice = createSlice( {
    name: 'loader',
-   initialState: {
-      visible: false
-   },
+   initialState,
    reducers: {
       toggleLoader( state ) {
          state.visible = !state.visible

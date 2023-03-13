@@ -2,15 +2,26 @@ import { createSlice } from '@reduxjs/toolkit';
 import { request } from "../../utils/request";
 import { NORMA_API } from "../../utils/burger-api";
 import { toggleLoader } from "./loaderSlice";
+import { IIngredient } from "../../utils/types";
+import { AppDispatch } from "../store";
+
+
+type IInitialState = {
+   ingredients: IIngredient[],
+   ingredientsRequest: boolean,
+   ingredientsFailed: boolean,
+}
+
+const initialState: IInitialState = {
+   ingredients: [],
+   ingredientsRequest: false,
+   ingredientsFailed: false,
+}
 
 
 const burgerIngredientsSlice = createSlice( {
    name: 'burgerIngredients',
-   initialState: {
-      ingredients: [],
-      ingredientsRequest: false,
-      ingredientsFailed: false,
-   },
+   initialState,
    reducers: {
       getIngredietnsSuccess( state, action ) {
          state.ingredients = action.payload
@@ -29,7 +40,7 @@ const burgerIngredientsSlice = createSlice( {
 } )
 
 
-export const getIngredients = () => async ( dispatch ) => {
+export const getIngredients = () => async ( dispatch: AppDispatch ) => {
    try {
       dispatch( toggleLoader() )
       dispatch( getIngredientsRequest() )

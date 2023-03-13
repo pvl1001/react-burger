@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { IIngredient } from "../../utils/types";
 
 
-const initialState = {
+type TInitialState = {
+   bun: null | IIngredient,
+   ingredients: IIngredient[],
+}
+
+const initialState: TInitialState = {
    bun: null,
    ingredients: [],
 }
