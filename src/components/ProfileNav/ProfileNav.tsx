@@ -21,8 +21,8 @@ const ProfileNav: FC = () => {
    ]
 
    async function onExit() {
-      const success = await dispatch( userLogout() )
-      if ( success ) navigate( '/login' )
+      const res = await dispatch( userLogout() )
+      if ( res?.meta.requestStatus === 'fulfilled' ) navigate( '/login' )
    }
 
 

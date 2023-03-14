@@ -11,7 +11,7 @@ function UseAuth() {
    const [ isUserLoaded, setUserLoaded ] = useState( false )
 
    async function init() {
-      if ( getCookie( 'token' ) ) await dispatch( getUser() )
+      if ( getCookie( 'token' ) && !auth.user ) await dispatch( getUser() )
       setUserLoaded( true )
    }
 

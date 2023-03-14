@@ -181,7 +181,6 @@ const authSlice = createSlice( {
          } )
          .addCase( patchUser.fulfilled, ( state, action ) => {
             state.user = action.payload
-            debugger
             state.authFailed = false
             state.authRequest = false
          } )

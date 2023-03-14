@@ -11,21 +11,19 @@ import {
 
 export const NORMA_API = 'https://norma.nomoreparties.space/api'
 
-const token = getCookie( 'token' )
-const refreshToken = getCookie( 'refreshToken' )
-
+const headerWithAuthorization = {
+   'Content-Type': 'application/json',
+   Authorization: 'Bearer ' + getCookie( 'token' )
+}
 
 export const authRequest = async ( newToken?: string ): Promise<IResponseUser> => {
-   if ( newToken || token ) {
+   if ( newToken || getCookie( 'token' ) ) {
       const res = await fetch( `${ NORMA_API }/auth/user`, {
          method: 'GET',
          mode: 'cors',
          cache: 'no-cache',
          credentials: 'same-origin',
-         headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${ newToken || token }`,
-         },
+         headers: headerWithAuthorization,
          redirect: 'follow',
          referrerPolicy: 'no-referrer',
       } )
@@ -36,7 +34,7 @@ export const authRequest = async ( newToken?: string ): Promise<IResponseUser> =
 
 
 export const getRefreshTokenRequest = async (): Promise<string> => {
-   if ( refreshToken ) {
+   if ( getCookie( 'refreshToken' ) ) {
       const res = await request( `${ NORMA_API }/auth/token`, {
          method: 'POST',
          mode: 'cors',
@@ -45,7 +43,7 @@ export const getRefreshTokenRequest = async (): Promise<string> => {
          headers: { 'Content-Type': 'application/json', },
          redirect: 'follow',
          referrerPolicy: 'no-referrer',
-         body: JSON.stringify( { token: refreshToken } )
+         body: JSON.stringify( { token: getCookie( 'refreshToken' ) } )
       } )
       if ( res.success ) {
          const authToken = res.accessToken.split( 'Bearer ' )[1]
@@ -66,10 +64,7 @@ export const patchUserRequest = async ( data: IUser ): Promise<IResponseUser> =>
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
-      headers: {
-         'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + token
-      },
+      headers: headerWithAuthorization,
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify( data )
@@ -78,7 +73,7 @@ export const patchUserRequest = async ( data: IUser ): Promise<IResponseUser> =>
 
 
 export const logoutRequest = async (): Promise<IResponseAuth> => {
-   if ( refreshToken ) {
+   if ( getCookie( 'refreshToken' ) ) {
       return await request( `${ NORMA_API }/auth/logout`, {
          method: 'POST',
          mode: 'cors',
@@ -87,10 +82,10 @@ export const logoutRequest = async (): Promise<IResponseAuth> => {
          headers: { 'Content-Type': 'application/json', },
          redirect: 'follow',
          referrerPolicy: 'no-referrer',
-         body: JSON.stringify( { token: refreshToken } )
+         body: JSON.stringify( { token: getCookie( 'refreshToken' ) } )
       } )
    }
-   throw { message: `refreshToken: ${ refreshToken }` }
+   throw { message: `refreshToken: ${ getCookie( 'refreshToken' ) }` }
 }
 
 
@@ -128,10 +123,7 @@ export const resetPasswordRequest = async ( data: IResetForm ): Promise<IRespons
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
-      headers: {
-         'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + token
-      },
+      headers: headerWithAuthorization,
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify( data )
@@ -145,10 +137,7 @@ export const forgotPasswordRequest = async ( data: IEmailForm ): Promise<IRespon
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
-      headers: {
-         'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + token
-      },
+      headers: headerWithAuthorization,
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify( data )
@@ -158,10 +147,7 @@ export const forgotPasswordRequest = async ( data: IEmailForm ): Promise<IRespon
 export const orderIdRequest = async ( data: { ingredients: string[] } ): Promise<TOrderIdRequest> => {
    return await request( `${ NORMA_API }/orders`, {
       method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + token
-      },
+      headers: headerWithAuthorization,
       body: JSON.stringify( data )
    } )
 }

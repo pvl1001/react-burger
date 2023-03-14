@@ -29,11 +29,12 @@ const App: FC = () => {
    const location = useLocation()
    const navigate = useNavigate()
    const loaderVisible = useSelector( ( store: RootState ) => store.loader.visible )
+   const user = useSelector( ( store: RootState ) => store.auth.user )
    const background = location.state?.background
 
    // получаем данные ингредиентов
    useEffect( () => {
-      if ( getCookie( 'token' ) ) dispatch( getUser() )
+      if ( getCookie( 'token' ) && !user ) dispatch( getUser() )
       dispatch( getIngredients() )
    }, [] )
 
