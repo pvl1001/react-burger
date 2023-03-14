@@ -17,7 +17,7 @@ const RegisterPage: FC = () => {
       e.preventDefault()
 
       const res = await dispatch( userRegister( values ) )
-      if ( res?.success ) navigate( '/login' )
+      if ( res?.meta.requestStatus === 'fulfilled' ) navigate( '/login' )
    }
 
 

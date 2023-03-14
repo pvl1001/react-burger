@@ -1,15 +1,16 @@
 import s from "./LoginPage/LoginPage.module.scss"
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
-import { toggleLoader } from "../services/slices/loaderSlice";
 import { useDispatch } from "react-redux";
-import { resetPasswordRequest } from "../utils/burger-api";
 import { useForm } from "../hooks/useForm";
 import { FC, FormEvent } from "react";
+import { AppDispatch } from "../services/store";
+import { toggleLoader } from "../services/slices/loaderSlice";
+import { resetPasswordRequest } from "../utils/api";
 
 
 const ResetPasswordPage: FC = () => {
-   const dispatch = useDispatch()
+   const dispatch = useDispatch<AppDispatch>()
    const location = useLocation()
    const navigate = useNavigate()
    const { values, handleChange } = useForm( { token: '', password: '' } )
@@ -19,13 +20,11 @@ const ResetPasswordPage: FC = () => {
 
       try {
          dispatch( toggleLoader() )
-         const { success } = await resetPasswordRequest( {
-            password: values.password,
-            token: values.token
-         } )
-         if ( success ) navigate( '/login' )
-      } catch ( err ) {
-         console.log( 'Ошибка запроса! ' + err, values )
+         const res = await resetPasswordRequest( values )
+         if ( res?.success ) navigate( '/login' )
+         throw res
+      } catch ( err: any ) {
+         console.log( 'Ошибка запроса! ' + err.message )
       } finally {
          dispatch( toggleLoader() )
       }

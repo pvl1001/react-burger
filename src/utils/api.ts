@@ -6,7 +6,7 @@ import {
    ILoginForm,
    TRequestLogin,
    IResetForm,
-   IEmailForm, IUser,
+   IEmailForm, IUser, IResponseRegister, TOrderIdRequest,
 } from "./types";
 
 export const NORMA_API = 'https://norma.nomoreparties.space/api'
@@ -108,7 +108,7 @@ export const loginRequest = async ( data: ILoginForm ): Promise<TRequestLogin> =
 }
 
 
-export const registerRequest = async ( data: IUser ): Promise<IResponseAuth> => {
+export const registerRequest = async ( data: IUser ): Promise<IResponseRegister> => {
    return await request( `${ NORMA_API }/auth/register`, {
       method: 'POST',
       mode: 'cors',
@@ -151,6 +151,17 @@ export const forgotPasswordRequest = async ( data: IEmailForm ): Promise<IRespon
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
+      body: JSON.stringify( data )
+   } )
+}
+
+export const orderIdRequest = async ( data: { ingredients: string[] } ): Promise<TOrderIdRequest> => {
+   return await request( `${ NORMA_API }/orders`, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+         Authorization: 'Bearer ' + token
+      },
       body: JSON.stringify( data )
    } )
 }

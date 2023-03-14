@@ -16,8 +16,8 @@ const LoginPage: FC = () => {
 
    async function onSubmit( e: FormEvent<HTMLFormElement> ) {
       e.preventDefault()
-      const { success } = await dispatch( userLogin( values ) as any )
-      if ( success ) navigate( location.state?.pathfrom || '/' )
+      const res = await dispatch( userLogin( values ) )
+      if ( res?.meta.requestStatus === 'fulfilled' ) navigate( location.state?.pathfrom || '/' )
    }
 
 

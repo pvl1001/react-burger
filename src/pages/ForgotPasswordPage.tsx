@@ -1,7 +1,7 @@
 import s from "./LoginPage/LoginPage.module.scss"
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { forgotPasswordRequest } from "../utils/burger-api"
+import { forgotPasswordRequest } from "../utils/api"
 import { useDispatch } from "react-redux"
 import { toggleLoader } from "../services/slices/loaderSlice"
 import { useForm } from "../hooks/useForm";

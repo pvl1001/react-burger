@@ -34,7 +34,7 @@ export interface ILoginForm {
 
 export interface IResponseUser {
    success: boolean
-   user: IUser
+   user: TStoreUser
 }
 
 export interface IResponseToken {
@@ -50,6 +50,13 @@ export interface IResponseAuth {
    message: string
 }
 
+export interface IResponseRegister {
+   success: boolean
+   user: TStoreUser
+   accessToken: string
+   refreshToken: string
+}
+
 export interface IResetForm {
    password: string
    token: string
@@ -57,4 +64,25 @@ export interface IResetForm {
 
 export interface IEmailForm {
    email?: string
+}
+
+export interface TOrderIdRequest {
+   success: boolean
+   name: string,
+   order: {
+      ingredients: IIngredient[]
+      _id: string
+      owner: {
+         name: string
+         email: string
+         createdAt: string
+         updatedAt: string
+      }
+      status: string
+      name: string
+      createdAt: string
+      updatedAt: string
+      number: string
+      price: string
+   }
 }

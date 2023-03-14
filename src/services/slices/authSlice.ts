@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { toggleLoader } from "./loaderSlice";
 import {
    authRequest,
@@ -7,170 +7,210 @@ import {
    logoutRequest,
    patchUserRequest,
    registerRequest
-} from "../../utils/burger-api";
+} from "../../utils/api";
 import { deleteCookie, setCookie } from "../../utils/setCookie";
-import { AppDispatch } from "../store";
-import { ILoginForm, IUser, TStoreUser } from "../../utils/types";
+import { ILoginForm, IResponseRegister, IUser, TStoreUser } from "../../utils/types";
 
 
-type TInitialState = {
-   user: null | TStoreUser
-   accessToken: string
-   refreshToken: string
-   authRequest: boolean
-   authFailed: boolean
-}
+// получить данные пользователя
+export const getUser = createAsyncThunk<TStoreUser>(
+   'auth/getUser',
+   async ( _, { dispatch, rejectWithValue } ) => {
+      try {
+         dispatch( toggleLoader() )
+         const res = await authRequest()
+         if ( res?.success ) return res.user
+         throw res
+      } catch ( err: any ) {
+         console.log( 'Ошибка getUser: ' + err.message )
+         return rejectWithValue( err.message )
+      } finally {
+         dispatch( toggleLoader() )
+      }
+   }
+)
 
-const initialState: TInitialState = {
-   user: null,
-   accessToken: '',
-   refreshToken: '',
-   authRequest: false,
-   authFailed: false,
-}
+// обновить данные пользователя
+export const patchUser = createAsyncThunk<TStoreUser, IUser>(
+   'auth/patchUser',
+   async ( userForm, { dispatch, rejectWithValue } ) => {
+      try {
+         dispatch( toggleLoader() )
+         const res = await patchUserRequest( userForm )
+         if ( res?.success ) return res.user
+         throw res
+      } catch ( err: any ) {
+         console.log( 'Ошибка getUser: ' + err.message )
+         return rejectWithValue( err.message )
+      } finally {
+         dispatch( toggleLoader() )
+      }
+   }
+)
+
+// выход пользователя
+export const userLogout = createAsyncThunk<boolean>(
+   'auth/userLogout',
+   async ( _, { dispatch, rejectWithValue } ) => {
+      try {
+         dispatch( toggleLoader() )
+         const res = await logoutRequest()
+         if ( res?.success ) {
+            console.log( res.message )
+            deleteCookie( 'token' )
+            deleteCookie( 'refreshToken' )
+            return res.success
+         }
+         throw res
+      } catch ( err: any ) {
+         console.log( 'Ошибка userLogout: ' + err.message )
+         return rejectWithValue( err.message )
+      } finally {
+         dispatch( toggleLoader() )
+      }
+   }
+)
+
+// вход пользователя
+export const userLogin = createAsyncThunk<IResponseRegister, ILoginForm>(
+   'auth/userLogin',
+   async ( value, { dispatch, rejectWithValue } ) => {
+      try {
+         dispatch( toggleLoader() )
+         const res = await loginRequest( value )
+         if ( res?.success ) {
+            const authToken = res.accessToken.split( 'Bearer ' )[1]
+            setCookie( 'token', authToken )
+            setCookie( 'refreshToken', res.refreshToken )
+            return res
+         }
+         throw res
+      } catch ( err: any ) {
+         console.log( 'Ошибка userLogin: ' + err.message, value )
+
+         if ( err.status === 403 ) {
+            const newToken = await getRefreshTokenRequest()
+            await authRequest( newToken )
+         }
+         return rejectWithValue( err.message )
+      } finally {
+         dispatch( toggleLoader() )
+      }
+   }
+)
+
+// регистрация пользователя
+export const userRegister = createAsyncThunk<IResponseRegister, IUser>(
+   'auth/userRegister',
+   async ( value, { dispatch, rejectWithValue } ) => {
+      try {
+         dispatch( toggleLoader() )
+         const res = await registerRequest( value )
+         if ( res?.success ) return res
+         throw res
+      } catch ( err: any ) {
+         console.log( 'Ошибка userRegister: ' + err.message )
+         return rejectWithValue( err.message )
+      } finally {
+         dispatch( toggleLoader() )
+      }
+   }
+)
 
 
 const authSlice = createSlice( {
    name: 'auth',
-   initialState,
-   reducers: {
-      getAuthRequest( state ) {
-         state.authRequest = true
-      },
-      getAuthFailed( state ) {
-         state.authRequest = false
-         state.authFailed = true
-         state.accessToken = ''
-         state.refreshToken = ''
-         state.user = null
-      },
-      getTokenSuccess( state, action ) {
-         const { accessToken, refreshToken, user } = action.payload
-         state.authFailed = false
-         state.authRequest = false
-         state.accessToken = accessToken
-         state.refreshToken = refreshToken
-         state.user = user
-      },
-      getUserSuccess( state, action ) {
-         state.authFailed = false
-         state.authRequest = false
-         state.user = action.payload
-      },
-      logOut( state ) {
-         state.user = null
-      },
+   initialState: {
+      user: null as null | TStoreUser,
+      accessToken: '' as string,
+      refreshToken: '' as string,
+      authRequest: false as boolean,
+      authFailed: false as boolean,
    },
+   reducers: {},
+   extraReducers: ( builder ) => {
+      builder
+         .addCase( getUser.pending, ( state ) => {
+            state.authRequest = true
+         } )
+         .addCase( getUser.fulfilled, ( state, action ) => {
+            state.user = action.payload
+            state.authFailed = false
+            state.authRequest = false
+         } )
+         .addCase( getUser.rejected, ( state ) => {
+            state.user = null
+            state.authRequest = false
+            state.authFailed = true
+         } )
+
+      builder
+         .addCase( userLogout.pending, ( state ) => {
+            state.authRequest = true
+         } )
+         .addCase( userLogout.fulfilled, ( state ) => {
+            state.user = null
+            state.authRequest = false
+            state.authFailed = false
+         } )
+         .addCase( userLogout.rejected, ( state ) => {
+            state.authRequest = false
+            state.authFailed = true
+         } )
+
+      builder
+         .addCase( userLogin.pending, ( state ) => {
+            state.authRequest = true
+         } )
+         .addCase( userLogin.fulfilled, ( state, action ) => {
+            const { user, accessToken, refreshToken } = action.payload
+            state.user = user
+            state.accessToken = accessToken
+            state.refreshToken = refreshToken
+            state.authRequest = false
+            state.authFailed = false
+         } )
+         .addCase( userLogin.rejected, ( state ) => {
+            state.authRequest = false
+            state.authFailed = true
+         } )
+
+      builder
+         .addCase( patchUser.pending, ( state ) => {
+            state.authRequest = true
+         } )
+         .addCase( patchUser.fulfilled, ( state, action ) => {
+            state.user = action.payload
+            debugger
+            state.authFailed = false
+            state.authRequest = false
+         } )
+         .addCase( patchUser.rejected, ( state ) => {
+            state.authRequest = false
+            state.authFailed = true
+         } )
+
+      builder
+         .addCase( userRegister.pending, ( state ) => {
+            state.authRequest = true
+         } )
+         .addCase( userRegister.fulfilled, ( state, action ) => {
+            const { accessToken, refreshToken, user } = action.payload
+            state.authFailed = false
+            state.authRequest = false
+            state.accessToken = accessToken
+            state.refreshToken = refreshToken
+            state.user = user
+         } )
+         .addCase( userRegister.rejected, ( state ) => {
+            state.authRequest = false
+            state.authFailed = true
+            state.accessToken = ''
+            state.refreshToken = ''
+            state.user = null
+         } )
+   }
 } )
 
 
-// регистрация пользователя
-export const userRegister = ( value: IUser ) => async ( dispatch: AppDispatch ) => {
-   try {
-      dispatch( getAuthRequest() )
-      dispatch( toggleLoader() )
-      const res = await registerRequest( value )
-      if ( res.success ) {
-         dispatch( getTokenSuccess( res ) )
-         return res
-      }
-      dispatch( getAuthFailed() )
-   } catch ( err: any ) {
-      dispatch( getAuthFailed() )
-      console.log( 'Ошибка userRegister: ' + err.message, value )
-   } finally {
-      dispatch( toggleLoader() )
-   }
-}
-
-// вход пользователя
-export const userLogin = ( value: ILoginForm ) => async ( dispatch: AppDispatch ) => {
-   try {
-      dispatch( getAuthRequest() )
-      dispatch( toggleLoader() )
-      const res = await loginRequest( value )
-      if ( res.success ) {
-         dispatch( getTokenSuccess( res ) )
-         const authToken = res.accessToken.split( 'Bearer ' )[1]
-         setCookie( 'token', authToken )
-         setCookie( 'refreshToken', res.refreshToken )
-         return res
-      }
-      dispatch( getAuthFailed() )
-   } catch ( err: any ) {
-      dispatch( getAuthFailed() )
-      console.log( 'Ошибка userLogin: ' + err.message, value )
-
-      if ( err.status === 403 ) {
-         const newToken = await getRefreshTokenRequest()
-         await authRequest( newToken )
-      }
-   } finally {
-      dispatch( toggleLoader() )
-   }
-}
-
-// выход пользователя
-export const userLogout = () => async ( dispatch: AppDispatch ) => {
-   try {
-      dispatch( getAuthRequest() )
-      dispatch( toggleLoader() )
-      const { success, message } = await logoutRequest()
-
-      if ( success ) {
-         console.log( message )
-         deleteCookie( 'token' )
-         deleteCookie( 'refreshToken' )
-         dispatch( logOut() )
-         return success
-      }
-      dispatch( getAuthFailed() )
-   } catch ( err: any ) {
-      dispatch( getAuthFailed() )
-      console.log( 'Ошибка userLogout: ' + err.message )
-   } finally {
-      dispatch( toggleLoader() )
-   }
-}
-
-// получить данные пользователя
-export const getUser = () => async ( dispatch: AppDispatch ) => {
-   try {
-      dispatch( getAuthRequest() )
-      dispatch( toggleLoader() )
-      const res = await authRequest()
-      if ( res.success ) return dispatch( getUserSuccess( res.user ) )
-      dispatch( getAuthFailed() )
-   } catch ( err ) {
-      dispatch( getAuthFailed() )
-   } finally {
-      dispatch( toggleLoader() )
-   }
-}
-
-// обновить данные пользователя
-export const patchUser = ( form: IUser ) => async ( dispatch: AppDispatch ) => {
-   try {
-      dispatch( getAuthRequest() )
-      dispatch( toggleLoader() )
-      const { success, user } = await patchUserRequest( form )
-
-      if ( success ) return dispatch( getUserSuccess( user ) )
-      dispatch( getAuthFailed() )
-   } catch ( err: any ) {
-      dispatch( getAuthFailed() )
-      console.log( 'Ошибка patchUser: ' + err.message )
-   } finally {
-      dispatch( toggleLoader() )
-   }
-}
-
-
-export const {
-   logOut,
-   getAuthRequest,
-   getAuthFailed,
-   getTokenSuccess,
-   getUserSuccess,
-} = authSlice.actions
 export default authSlice.reducer

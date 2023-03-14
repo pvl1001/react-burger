@@ -1,9 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { request } from "../../utils/request";
-import { NORMA_API } from "../../utils/burger-api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { orderIdRequest } from "../../utils/api";
 import { toggleLoader } from "./loaderSlice";
-import { getCookie } from "../../utils/setCookie";
-import { AppDispatch } from "../store";
+
+
+export const getOrderId = createAsyncThunk<string, string[]>(
+   'order/getOrderId',
+   async ( ingredientsId, { dispatch, rejectWithValue } ) => {
+      try {
+         dispatch( toggleLoader() )
+         const res = await orderIdRequest( { ingredients: ingredientsId } )
+         if ( res?.success ) return res.order.number
+         throw res
+      } catch ( err: any ) {
+         console.log( 'Ошибка получения номера заявки: ' + err.message )
+         return rejectWithValue( err.message )
+      } finally {
+         dispatch( toggleLoader() )
+      }
+   }
+)
 
 
 type TInitialState = {
@@ -21,50 +36,24 @@ const initialState: TInitialState = {
 const orderSlice = createSlice( {
    name: 'order',
    initialState,
-   reducers: {
-      getOrderIdSuccess( state, action ) {
-         state.id = action.payload
-         state.idRequest = false
-         state.idFailed = false
-      },
-      getOrderIdRequest( state ) {
-         state.idRequest = true
-      },
-      getOrderIdFailed( state ) {
-         state.id = ''
-         state.idRequest = false
-         state.idFailed = true
-      },
-   },
+   reducers: {},
+   extraReducers: ( builder ) => {
+      builder
+         .addCase( getOrderId.pending, ( state ) => {
+            state.idRequest = true
+         } )
+         .addCase( getOrderId.fulfilled, ( state, action ) => {
+            state.id = action.payload
+            state.idRequest = false
+            state.idFailed = false
+         } )
+         .addCase( getOrderId.rejected, ( state ) => {
+            state.id = ''
+            state.idRequest = false
+            state.idFailed = true
+         } )
+   }
 } )
 
 
-export const getOrderId = ( ingredientsId: string[] ) => async ( dispatch: AppDispatch ) => {
-   try {
-      dispatch( toggleLoader() )
-      dispatch( getOrderIdRequest() )
-      const { order, success } = await request( `${ NORMA_API }/orders`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + getCookie( 'token' )
-         },
-         body: JSON.stringify( { ingredients: ingredientsId } )
-      } )
-      if ( success ) return dispatch( getOrderIdSuccess( order.number ) )
-      dispatch( getOrderIdFailed() )
-   } catch ( err ) {
-      console.log( 'Ошибка получения номера заявки: ' + err )
-      dispatch( getOrderIdFailed() )
-   } finally {
-      dispatch( toggleLoader() )
-   }
-}
-
-
-export const {
-   getOrderIdSuccess,
-   getOrderIdRequest,
-   getOrderIdFailed,
-} = orderSlice.actions
 export default orderSlice.reducer
