@@ -71,7 +71,7 @@ const BurgerIngredients: FC = () => {
          </div>
 
 
-         <ul className={ s.list + ' scrollbar test' } onScroll={ onScrollHandler }>
+         <ul className={ s.list + ' scrollbar' } onScroll={ onScrollHandler }>
             { ingredientGroups.map( ( group, i ) => {
                   return <GroupIngredients
                      key={ i }

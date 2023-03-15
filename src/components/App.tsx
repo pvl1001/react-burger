@@ -8,9 +8,8 @@ import LoginPage from "../pages/LoginPage/LoginPage"
 import RegisterPage from "../pages/RegisterPage"
 import ForgotPasswordPage from "../pages/ForgotPasswordPage"
 import ResetPasswordPage from "../pages/ResetPaswordPage"
-import ProfilePage from "../pages/ProdfilePage/ProfilePage"
+import ProfilePage from "../pages/ProfilePage/ProfilePage"
 import ProtectedRouteElement from "./_hocs/ProtectedRouteElement"
-import FeedPage from "../pages/Feed"
 import ProfileForm from "./ProfileForm/ProfileForm"
 import NoAuthUserRoute from "./_hocs/noAuthUserRoute"
 import IngredientsId from "../pages/IngredientsId/IngredientsId"
@@ -22,6 +21,7 @@ import { clearIngredientModal } from "../services/slices/currentIngredientSlice"
 import { getCookie } from "../utils/setCookie";
 import { getUser } from "../services/slices/authSlice";
 import { AppDispatch, RootState } from "../services/store";
+import FeedPage from "../pages/FeedPage/FeedPage";
 
 
 const App: FC = () => {
