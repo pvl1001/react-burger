@@ -2,9 +2,9 @@ import s from './ProfileForm.module.scss'
 import { useRef, useState, useCallback, FC, ChangeEvent, FormEvent } from 'react'
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../services/store";
-import { patchUser } from "../../services/slices/authSlice";
-import { IUser } from "../../utils/types";
+import { AppDispatch, RootState } from "../../../services/store";
+import { patchUser } from "../../../services/slices/authSlice";
+import { IUser } from "../../../utils/types";
 
 
 interface IInput {

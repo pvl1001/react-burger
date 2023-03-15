@@ -1,5 +1,5 @@
 import s from './ProfilePage.module.scss'
-import ProfileNav from "../../components/ProfileNav/ProfileNav";
+import ProfileNav from "../../components/Profile/ProfileNav/ProfileNav";
 import { Outlet } from "react-router-dom";
 import { FC } from "react";
 

@@ -4,7 +4,7 @@ import Price from "../../components/Price/Price";
 // import { useParams } from "react-router-dom";
 
 
-function FeedIdPage() {
+function OrderIdPage() {
    // const { id } = useParams()
 
    return (
@@ -45,4 +45,4 @@ function FeedIdPage() {
 }
 
 
-export default FeedIdPage;
+export default OrderIdPage;

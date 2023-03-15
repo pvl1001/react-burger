@@ -10,7 +10,7 @@ import ForgotPasswordPage from "../pages/ForgotPasswordPage"
 import ResetPasswordPage from "../pages/ResetPaswordPage"
 import ProfilePage from "../pages/ProfilePage/ProfilePage"
 import ProtectedRouteElement from "./_hocs/ProtectedRouteElement"
-import ProfileForm from "./ProfileForm/ProfileForm"
+import ProfileForm from "./Profile/ProfileForm/ProfileForm"
 import NoAuthUserRoute from "./_hocs/noAuthUserRoute"
 import IngredientsId from "../pages/IngredientsId/IngredientsId"
 import { FC, useEffect } from "react"
@@ -22,7 +22,8 @@ import { getCookie } from "../utils/setCookie";
 import { getUser } from "../services/slices/authSlice";
 import { AppDispatch, RootState } from "../services/store";
 import FeedPage from "../pages/FeedPage/FeedPage";
-import FeedIdPage from "../pages/FeedIdPage/FeedIdPage";
+import OrderIdPage from "../pages/FeedIdPage/OrderIdPage";
+import ProfileOrders from "./Profile/ProfileOrders/ProfileOrders";
 
 
 const App: FC = () => {
@@ -39,8 +40,8 @@ const App: FC = () => {
       dispatch( getIngredients() )
    }, [] )
 
-   function onCloseModal() {
-      navigate( '/' )
+   function onCloseIngredientModal() {
+      navigate( -1 )
       dispatch( clearIngredientModal() )
    }
 
@@ -55,7 +56,7 @@ const App: FC = () => {
             <Routes location={ background || location }>
                <Route path={ '/' } element={ <HomePage/> }/>
                <Route path={ '/feed' } element={ <FeedPage/> }/>
-               <Route path={ '/feed/:id' } element={ <FeedIdPage/> }/>
+               <Route path={ '/feed/:id' } element={ <OrderIdPage/> }/>
                <Route path={ '/ingredients/:id' } element={ <IngredientsId/> }/>
                <Route path={ '*' } element={ <ErrorPage/> }/>
 
@@ -89,25 +90,38 @@ const App: FC = () => {
                   </ProtectedRouteElement>
                }>
                   <Route path={ '' } element={ <ProfileForm/> }/>
-                  <Route path={ 'orders' } element={ <h1>Orders</h1> }>
-                     <Route path={ ':id' } element={ <h1>OrderId</h1> }/>
-                  </Route>
+                  <Route path={ 'orders' } element={ <ProfileOrders/> }/>
                </Route>
+
+               <Route path={ '/profile/orders/:id' } element={
+                  <ProtectedRouteElement>
+                     <OrderIdPage/>
+                  </ProtectedRouteElement> }
+               />
             </Routes>
 
             { background &&
                <Routes>
-                  <Route
-                     path="/ingredients/:id"
-                     element={
-                        <Modal
-                           header={ 'Детали ингредиента' }
-                           onClose={ onCloseModal }
-                        >
-                           <IngredientDetails/>
+                  <Route path="/ingredients/:id" element={
+                     <Modal
+                        header={ 'Детали ингредиента' }
+                        onClose={ onCloseIngredientModal }
+                     ><IngredientDetails/></Modal>
+                  }/>
+
+                  <Route path="/profile/orders/:id" element={
+                     <ProtectedRouteElement>
+                        <Modal onClose={ () => navigate( -1 ) }>
+                           <OrderIdPage/>
                         </Modal>
-                     }
-                  />
+                     </ProtectedRouteElement>
+                  }/>
+
+                  <Route path="/feed/:id" element={
+                     <Modal onClose={ () => navigate( -1 ) }>
+                        <OrderIdPage/>
+                     </Modal>
+                  }/>
                </Routes>
             }
          </main>
