@@ -20,7 +20,7 @@ const FeedOrders: FC = () => {
 
                <div className={ s.item__row }>
                   <FeedIngredients/>
-                  <Price price={ 0 }/>
+                  <Price>0</Price>
                </div>
             </li>
          ) }

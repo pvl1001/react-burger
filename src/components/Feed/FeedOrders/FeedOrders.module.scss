@@ -24,6 +24,11 @@
       display: flex;
       flex: 1;
       flex-direction: row-reverse;
+      justify-content: flex-end;
+
+      > * {
+         margin-right: -15px;
+      }
    }
 
    &__image {
@@ -36,7 +41,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: -15px;
 
 
       img {
@@ -53,10 +57,6 @@
          right: 2px;
          background: #000;
          border-radius: 50%;
-      }
-
-      &:first-child {
-         margin-right: auto;
       }
 
    }

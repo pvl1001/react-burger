@@ -51,7 +51,7 @@ const CardIngredients: FC<ICardIngredientsProps> = ( { data } ) => {
             <img className={ s.image } src={ data.image } alt="ингредиент"/>
          </picture>
 
-         <Price price={ data.price }/>
+         <Price>{ data.price }</Price>
 
          <p className={ s.name + ' text text_type_main-small' }>{ data.name }</p>
       </li>

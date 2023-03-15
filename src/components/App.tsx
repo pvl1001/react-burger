@@ -22,6 +22,7 @@ import { getCookie } from "../utils/setCookie";
 import { getUser } from "../services/slices/authSlice";
 import { AppDispatch, RootState } from "../services/store";
 import FeedPage from "../pages/FeedPage/FeedPage";
+import FeedIdPage from "../pages/FeedIdPage/FeedIdPage";
 
 
 const App: FC = () => {
@@ -54,6 +55,7 @@ const App: FC = () => {
             <Routes location={ background || location }>
                <Route path={ '/' } element={ <HomePage/> }/>
                <Route path={ '/feed' } element={ <FeedPage/> }/>
+               <Route path={ '/feed/:id' } element={ <FeedIdPage/> }/>
                <Route path={ '/ingredients/:id' } element={ <IngredientsId/> }/>
                <Route path={ '*' } element={ <ErrorPage/> }/>
 
