@@ -2,11 +2,11 @@ import s from './BurgerConstructor.module.scss'
 import ConstructorItem from "./ConstructorItem/ConstructorItem";
 import { FC, useEffect, useReducer } from "react";
 import ConstructorOrder from "./ConstructorOrder";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import { addItemConstructor } from "../../services/slices/burgerConstructorSlice";
 import { IIngredient } from "../../utils/types";
-import { RootState } from "../../services/store";
+import { useAppSelector } from "../../services/store";
 
 
 function reducer( state: number, action: { type: 'sum', payload: IIngredient[] } ) {
@@ -20,7 +20,7 @@ function reducer( state: number, action: { type: 'sum', payload: IIngredient[] }
 
 const BurgerConstructor: FC = () => {
    const dispatch = useDispatch()
-   const { ingredients, constructorIngredients, bun } = useSelector( ( store: RootState ) => ({
+   const { ingredients, constructorIngredients, bun } = useAppSelector( store => ({
       ingredients: store.burgerIngredients.ingredients,
       bun: store.burgerConstructor.bun,
       constructorIngredients: store.burgerConstructor.ingredients,

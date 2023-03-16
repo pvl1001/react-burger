@@ -2,8 +2,7 @@ import s from './BurgerIngredients.module.scss'
 import GroupIngredients from "./GroupIngredients/GroupIngredients"
 import { FC, SyntheticEvent, useRef, useState } from "react"
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
-import { useSelector } from "react-redux"
-import { RootState } from "../../services/store";
+import { useAppSelector } from "../../services/store";
 import { IIngredient } from "../../utils/types";
 
 
@@ -16,7 +15,7 @@ interface IIngredientGroup {
 }
 
 const BurgerIngredients: FC = () => {
-   const ingredients: IIngredient[] = useSelector( ( store: RootState ) => store.burgerIngredients.ingredients )
+   const ingredients: IIngredient[] = useAppSelector( store => store.burgerIngredients.ingredients )
    const refBuns = useRef<HTMLLIElement>( null )
    const refSauce = useRef<HTMLLIElement>( null )
    const refMain = useRef<HTMLLIElement>( null )

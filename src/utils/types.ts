@@ -86,3 +86,20 @@ export interface TOrderIdRequest {
       price: string
    }
 }
+
+export type TOrder = {
+   _id: string,
+   ingredients: Array<IIngredient>,
+   status: 'created' | 'pending' | 'done',
+   name: string,
+   createdAt: string,
+   updatedAt: string,
+   number: number,
+}
+
+export type TWsData = {
+   success: boolean,
+   total: number,
+   totalToday: number,
+   orders: Array<TOrder>
+}

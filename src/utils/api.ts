@@ -10,6 +10,7 @@ import {
 } from "./types";
 
 export const NORMA_API = 'https://norma.nomoreparties.space/api'
+export const WS_NORMA_API = 'wss://norma.nomoreparties.space'
 
 const headerWithAuthorization = {
    'Content-Type': 'application/json',

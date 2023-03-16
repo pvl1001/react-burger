@@ -5,7 +5,19 @@ import orderSlice from "./slices/orderSlice";
 import currentIngredientSlice from "./slices/currentIngredientSlice";
 import loaderSlice from "./slices/loaderSlice";
 import authSlice from "./slices/authSlice";
-import { useDispatch } from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import wsSlice from "./slices/wsSlice";
+import { socketMiddleware } from "./middleware/socketMiddleware";
+
+
+const wsActions = {
+   wsConnection: 'webSocket/wsConnection',
+   wsOffline: 'webSocket/wsOffline',
+   wsOpen: 'webSocket/wsOpen',
+   wsError: 'webSocket/wsConnectionError',
+   wsMessage: 'webSocket/wsGetOrders',
+   wsClose: 'webSocket/wsClose',
+}
 
 const store = configureStore( {
    reducer: {
@@ -15,21 +27,17 @@ const store = configureStore( {
       currentIngredient: currentIngredientSlice,
       order: orderSlice,
       loader: loaderSlice,
+      webSocket: wsSlice,
    },
    devTools: process.env.NODE_ENV === 'development',
-   middleware: getDefaultMiddleware =>
-      getDefaultMiddleware( {
-         serializableCheck: false,
-      } )
+   middleware: ( getDefaultMiddleware ) =>
+      getDefaultMiddleware().concat( socketMiddleware( wsActions ) ),
 } )
 
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
-
 export type RootState = ReturnType<typeof store.getState>
-//
-// export type AppThunk<TReturn = void> = ActionCreator<
-//    ThunkAction<TReturn, Action, RootState, TApplicationActions>
-// >;
+export type AppDispatch = typeof store.dispatch
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch: () => AppDispatch = useDispatch
 
 export default store

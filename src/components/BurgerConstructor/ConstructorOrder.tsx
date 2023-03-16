@@ -4,10 +4,9 @@ import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import useModal from "../../hooks/useModal";
 import { getOrderId } from "../../services/slices/orderSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { clearConstructor } from "../../services/slices/burgerConstructorSlice";
 import { FC } from "react";
-import { AppDispatch, RootState } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 
 
 interface IConstructorOrderProps {
@@ -16,8 +15,8 @@ interface IConstructorOrderProps {
 }
 
 const ConstructorOrder: FC<IConstructorOrderProps> = ( { totalPrice, ingredientsId } ) => {
-   const dispatch = useDispatch<AppDispatch>()
-   const { idRequest, user } = useSelector( ( store: RootState ) => ({
+   const dispatch = useAppDispatch()
+   const { idRequest, user } = useAppSelector( store => ({
       idRequest: store.order.idRequest,
       user: store.auth.user,
    }) )

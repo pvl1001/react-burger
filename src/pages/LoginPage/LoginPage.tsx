@@ -1,15 +1,14 @@
 import s from './LoginPage.module.scss'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { userLogin } from "../../services/slices/authSlice";
 import { useForm } from "../../hooks/useForm";
 import { FC, FormEvent } from "react";
-import { AppDispatch } from "../../services/store";
+import { useAppDispatch } from "../../services/store";
 
 
 const LoginPage: FC = () => {
-   const dispatch = useDispatch<AppDispatch>()
+   const dispatch = useAppDispatch()
    const navigate = useNavigate()
    const location = useLocation()
    const { values, handleChange } = useForm( { email: '', password: '' } )

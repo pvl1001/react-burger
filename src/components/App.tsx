@@ -1,5 +1,4 @@
 import AppHeader from "./AppHeader/AppHeader"
-import { useDispatch, useSelector } from "react-redux"
 import Loader from "./Loader/Loader"
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom"
 import HomePage from "../pages/HomePage"
@@ -20,18 +19,18 @@ import IngredientDetails from "./IngredientDetails/IngredientDetails";
 import { clearIngredientModal } from "../services/slices/currentIngredientSlice";
 import { getCookie } from "../utils/setCookie";
 import { getUser } from "../services/slices/authSlice";
-import { AppDispatch, RootState } from "../services/store";
+import { useAppDispatch, useAppSelector } from "../services/store";
 import FeedPage from "../pages/FeedPage/FeedPage";
 import OrderIdPage from "../pages/FeedIdPage/OrderIdPage";
 import ProfileOrders from "./Profile/ProfileOrders/ProfileOrders";
 
 
 const App: FC = () => {
-   const dispatch = useDispatch<AppDispatch>()
+   const dispatch = useAppDispatch()
    const location = useLocation()
    const navigate = useNavigate()
-   const loaderVisible = useSelector( ( store: RootState ) => store.loader.visible )
-   const user = useSelector( ( store: RootState ) => store.auth.user )
+   const loaderVisible = useAppSelector( store => store.loader.visible )
+   const user = useAppSelector( store => store.auth.user )
    const background = location.state?.background
 
    // получаем данные ингредиентов

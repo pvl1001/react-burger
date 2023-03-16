@@ -1,8 +1,7 @@
 import s from './ProfileForm.module.scss'
 import { useRef, useState, useCallback, FC, ChangeEvent, FormEvent } from 'react'
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../services/store";
+import { useAppDispatch, useAppSelector } from "../../../services/store";
 import { patchUser } from "../../../services/slices/authSlice";
 import { IUser } from "../../../utils/types";
 
@@ -48,8 +47,8 @@ const InputItem: FC<IInputItem> = ( { el, index, onChange, onIconClick } ) => {
 
 
 const ProfileForm: FC = () => {
-   const dispatch = useDispatch<AppDispatch>()
-   const { user } = useSelector( ( store: RootState ) => store.auth )
+   const dispatch = useAppDispatch()
+   const { user } = useAppSelector( store => store.auth )
    const [ isShowBtns, setIsShowBtns ] = useState<boolean>( false )
    const initialState: IInput[] = [
       {

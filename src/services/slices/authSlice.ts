@@ -88,7 +88,7 @@ export const userLogin = createAsyncThunk<IResponseRegister, ILoginForm>(
       } catch ( err: any ) {
          console.log( 'Ошибка userLogin: ' + err.message, value )
 
-         if ( err.status === 403 ) {
+         if ( err.message === 'jwt expired' ) {
             const newToken = await getRefreshTokenRequest()
             await authRequest( newToken )
          }

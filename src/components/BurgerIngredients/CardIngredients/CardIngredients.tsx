@@ -1,14 +1,14 @@
 import s from './CardIngredients.module.scss'
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import useModal from "../../../hooks/useModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getIngredientModal } from "../../../services/slices/currentIngredientSlice";
 import { useDrag } from "react-dnd";
 import { FC, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IIngredient } from "../../../utils/types";
-import { RootState } from "../../../services/store";
 import Price from "../../Price/Price";
+import { useAppSelector } from "../../../services/store";
 
 
 interface ICardIngredientsProps {
@@ -21,7 +21,7 @@ const CardIngredients: FC<ICardIngredientsProps> = ( { data } ) => {
    const location = useLocation()
 
    const { visible } = useModal()
-   const { bun, ingredients } = useSelector( ( store: RootState ) => store.burgerConstructor )
+   const { bun, ingredients } = useAppSelector( store => store.burgerConstructor )
    const [ , cardRef ] = useDrag( {
       type: 'ingredient',
       item: data,

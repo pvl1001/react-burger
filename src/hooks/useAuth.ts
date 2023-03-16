@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../services/store";
+import { useAppDispatch, useAppSelector } from "../services/store";
 import { getUser } from "../services/slices/authSlice";
 import { getCookie } from "../utils/setCookie";
 
 
 function UseAuth() {
-   const dispatch = useDispatch<AppDispatch>()
-   const auth = useSelector( ( store: RootState ) => store.auth )
+   const dispatch = useAppDispatch()
+   const auth = useAppSelector( store => store.auth )
    const [ isUserLoaded, setUserLoaded ] = useState( false )
 
    async function init() {

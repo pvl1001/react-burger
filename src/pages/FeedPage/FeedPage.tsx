@@ -1,10 +1,23 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import s from './FeedPage.module.scss'
 import FeedOrders from "../../components/Feed/FeedOrders/FeedOrders";
 import FeedDesk from "../../components/Feed/FeedDesk/FeedDesk";
+import { useAppDispatch } from "../../services/store";
+import { WS_NORMA_API } from "../../utils/api";
+import { wsConnection, wsOffline } from "../../services/slices/wsSlice";
 
 
 const FeedPage: FC = () => {
+   const dispatch = useAppDispatch()
+
+   useEffect( () => {
+      dispatch( wsConnection( `${ WS_NORMA_API }/orders/all` ) )
+      return () => {
+         dispatch( wsOffline() )
+      }
+   }, [] )
+
+
    return (
       <div className={ s._ }>
 
