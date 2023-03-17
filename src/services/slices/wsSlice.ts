@@ -1,19 +1,17 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TWsData } from "../../utils/types";
+import { createSlice } from "@reduxjs/toolkit"
+import { TWsData } from "../../utils/types"
 
 type TWsState = {
-   wsOpen: boolean,
-   wsUrl: string,
-   wsConnectionStatus: boolean,
-   wsError: null | string,
+   url: string,
+   status: string,
+   error: null | Event,
    data: null | TWsData,
 }
 
 const initialState: TWsState = {
-   wsOpen: false,
-   wsUrl: '',
-   wsConnectionStatus: false,
-   wsError: null,
+   url: '',
+   status: 'close',
+   error: null,
    data: null,
 }
 
@@ -21,28 +19,23 @@ const wsSlice = createSlice( {
    name: 'webSocket',
    initialState,
    reducers: {
-      wsOpen( state, action: PayloadAction<boolean> ) {
-         state.wsOpen = action.payload;
-         state.wsError = null;
+      wsOpen( state, action ) {
+         state.status = action.payload
       },
-      wsClose( state ) {
-         state.wsOpen = false;
-         state.wsUrl = ''
-         state.wsError = null;
-         state.data = null;
+      wsClose() {
+         return initialState
       },
-      wsConnection( state, action: PayloadAction<string> ) {
-         state.wsConnectionStatus = true;
-         state.wsUrl = action.payload
+      wsConnection( state, action ) {
+         state.url = action.payload
       },
       wsOffline( state ) {
-         state.wsConnectionStatus = false;
+         state.status = 'close'
       },
-      wsConnectionError( state, action: PayloadAction<null | string> ) {
-         state.wsError = action.payload;
+      wsError( state, action ) {
+         state.error = action.payload
       },
-      wsGetOrders( state, action: PayloadAction<TWsData> ) {
-         state.data = action.payload;
+      wsGetOrders( state, action ) {
+         state.data = action.payload
       },
    },
 } )
@@ -53,7 +46,7 @@ export const {
    wsClose,
    wsConnection,
    wsOffline,
-   wsConnectionError,
+   wsError,
    wsGetOrders,
 } = wsSlice.actions
 export default wsSlice.reducer

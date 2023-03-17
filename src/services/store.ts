@@ -10,7 +10,7 @@ import wsSlice from "./slices/wsSlice";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 
 
-const wsActions = {
+export type TwsActions = {
    wsConnection: 'webSocket/wsConnection',
    wsOffline: 'webSocket/wsOffline',
    wsOpen: 'webSocket/wsOpen',
@@ -18,6 +18,16 @@ const wsActions = {
    wsMessage: 'webSocket/wsGetOrders',
    wsClose: 'webSocket/wsClose',
 }
+
+const wsActions: TwsActions = {
+   wsConnection: 'webSocket/wsConnection',
+   wsOffline: 'webSocket/wsOffline',
+   wsOpen: 'webSocket/wsOpen',
+   wsError: 'webSocket/wsConnectionError',
+   wsMessage: 'webSocket/wsGetOrders',
+   wsClose: 'webSocket/wsClose',
+}
+
 
 const store = configureStore( {
    reducer: {

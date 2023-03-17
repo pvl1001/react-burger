@@ -1,9 +1,10 @@
 import type { Middleware, MiddlewareAPI } from 'redux'
-import { AppDispatch, RootState } from "../store"
+import { AppDispatch, RootState, TwsActions } from "../store"
 
-export const socketMiddleware = ( wsActions: any ): Middleware => {
+
+export const socketMiddleware = ( wsActions: TwsActions ): Middleware => {
    return (( store: MiddlewareAPI<AppDispatch, RootState> ) => {
-      let socket: WebSocket | null = null
+      let ws: WebSocket | null = null
 
       return next => action => {
          const { dispatch } = store
@@ -12,32 +13,30 @@ export const socketMiddleware = ( wsActions: any ): Middleware => {
 
 
          if ( type === wsConnection ) {
-            socket = new WebSocket( payload )
+            ws = new WebSocket( payload )
          }
 
          if ( type === wsOffline ) {
-            if ( socket ) {
-               socket.close( 1000, `WebSocket closed` )
-               socket = null
+            if ( ws ) {
+               ws.close( 1000, `WebSocket closed` )
+               ws = null
             }
          }
 
-         if ( socket ) {
-            socket.onopen = () => {
-               console.log('onopen')
-               dispatch( { type: wsOpen } )
+         if ( ws ) {
+            ws.onopen = ( event ) => {
+               console.log( 'onopen' )
+               dispatch( { type: wsOpen, payload: event.type } )
             }
-            socket.onerror = () => {
-               console.log('onerror')
-               dispatch( { type: wsError } )
+            ws.onerror = ( event ) => {
+               dispatch( { type: wsError, payload: event } )
             }
-            socket.onmessage = ( { data } ) => {
-               console.log('onmessage')
-               dispatch( { type: wsMessage, payload: JSON.parse( data ) } )
+            ws.onmessage = ( event ) => {
+               dispatch( { type: wsMessage, payload: JSON.parse( event.data ) } )
             }
-            socket.onclose = ( { code }) => {
-               console.log('onclose')
-               dispatch( { type: wsClose, payload: code.toString() } )
+            ws.onclose = ( event ) => {
+               dispatch( { type: wsClose, payload: event.type } )
+               console.log( event.reason )
             }
          }
 
