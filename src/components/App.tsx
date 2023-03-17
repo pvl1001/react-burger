@@ -23,6 +23,7 @@ import { useAppDispatch, useAppSelector } from "../services/store";
 import FeedPage from "../pages/FeedPage/FeedPage";
 import OrderIdPage from "../pages/FeedIdPage/OrderIdPage";
 import ProfileOrders from "./Profile/ProfileOrders/ProfileOrders";
+import routes from "../utils/routes";
 
 
 const App: FC = () => {
@@ -53,46 +54,46 @@ const App: FC = () => {
 
          <main className="main wrapper pt-10">
             <Routes location={ background || location }>
-               <Route path={ '/' } element={ <HomePage/> }/>
-               <Route path={ '/feed' } element={ <FeedPage/> }/>
-               <Route path={ '/feed/:id' } element={ <OrderIdPage/> }/>
-               <Route path={ '/ingredients/:id' } element={ <IngredientsId/> }/>
-               <Route path={ '*' } element={ <ErrorPage/> }/>
+               <Route path={ routes.home } element={ <HomePage/> }/>
+               <Route path={ routes.feed } element={ <FeedPage/> }/>
+               <Route path={ routes.feedId } element={ <OrderIdPage/> }/>
+               <Route path={ routes.ingredientsId } element={ <IngredientsId/> }/>
+               <Route path={ routes.error } element={ <ErrorPage/> }/>
 
-               <Route path={ '/login' } element={
+               <Route path={ routes.login } element={
                   <NoAuthUserRoute>
                      <LoginPage/>
                   </NoAuthUserRoute>
                }/>
 
-               <Route path={ '/register' } element={
+               <Route path={ routes.register } element={
                   <NoAuthUserRoute>
                      <RegisterPage/>
                   </NoAuthUserRoute>
                }/>
 
-               <Route path={ '/forgot-password' } element={
+               <Route path={ routes.forgotPassword } element={
                   <NoAuthUserRoute>
                      <ForgotPasswordPage/>
                   </NoAuthUserRoute>
                }/>
 
-               <Route path={ '/reset-password' } element={
+               <Route path={ routes.resetPassword } element={
                   <NoAuthUserRoute>
                      <ResetPasswordPage/>
                   </NoAuthUserRoute>
                }/>
 
-               <Route path={ '/profile' } element={
+               <Route path={ routes.profile } element={
                   <ProtectedRouteElement>
                      <ProfilePage/>
                   </ProtectedRouteElement>
                }>
-                  <Route path={ '' } element={ <ProfileForm/> }/>
-                  <Route path={ 'orders' } element={ <ProfileOrders/> }/>
+                  <Route path={ routes.profile } element={ <ProfileForm/> }/>
+                  <Route path={ routes.orders } element={ <ProfileOrders/> }/>
                </Route>
 
-               <Route path={ '/profile/orders/:id' } element={
+               <Route path={ routes.ordersId } element={
                   <ProtectedRouteElement>
                      <OrderIdPage/>
                   </ProtectedRouteElement> }
@@ -101,14 +102,14 @@ const App: FC = () => {
 
             { background &&
                <Routes>
-                  <Route path="/ingredients/:id" element={
+                  <Route path={ routes.ingredientsId } element={
                      <Modal
                         header={ 'Детали ингредиента' }
                         onClose={ onCloseIngredientModal }
                      ><IngredientDetails/></Modal>
                   }/>
 
-                  <Route path="/profile/orders/:id" element={
+                  <Route path={ routes.ordersId } element={
                      <ProtectedRouteElement>
                         <Modal onClose={ () => navigate( -1 ) }>
                            <OrderIdPage/>
@@ -116,7 +117,7 @@ const App: FC = () => {
                      </ProtectedRouteElement>
                   }/>
 
-                  <Route path="/feed/:id" element={
+                  <Route path={ routes.feedId } element={
                      <Modal onClose={ () => navigate( -1 ) }>
                         <OrderIdPage/>
                      </Modal>
