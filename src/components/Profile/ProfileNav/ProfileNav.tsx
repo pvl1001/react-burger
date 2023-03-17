@@ -32,6 +32,7 @@ const ProfileNav: FC = () => {
             { nav.map( ( { name, path } ) =>
                <li key={ name }>
                   <NavLink
+                     end
                      to={ path }
                      className={ ( { isActive } ) =>
                         `${ s.nav__item } text text_type_main-medium ${ !isActive ? 'text_color_inactive' : '' }` }
