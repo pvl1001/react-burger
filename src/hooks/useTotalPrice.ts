@@ -10,7 +10,7 @@ function UseTotalPrice( orderIngredients?: string[] ) {
          el.type === 'bun' ? total += el.price * 2 : total += el.price
       }
       return total
-   }, 0 ), [ ingredients ] )
+   }, 0 ), [ ingredients, orderIngredients ] )
 
    return { totalPrice } as { totalPrice: number }
 }
