@@ -12,10 +12,6 @@ import {
 export const NORMA_API = 'https://norma.nomoreparties.space/api'
 export const WS_NORMA_API = 'wss://norma.nomoreparties.space'
 
-const headerWithAuthorization = {
-   'Content-Type': 'application/json',
-   Authorization: 'Bearer ' + getCookie( 'token' )
-}
 
 export const authRequest = async ( newToken?: string ): Promise<IResponseUser> => {
    if ( newToken || getCookie( 'token' ) ) {
@@ -24,7 +20,10 @@ export const authRequest = async ( newToken?: string ): Promise<IResponseUser> =
          mode: 'cors',
          cache: 'no-cache',
          credentials: 'same-origin',
-         headers: headerWithAuthorization,
+         headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + getCookie( 'token' )
+         },
          redirect: 'follow',
          referrerPolicy: 'no-referrer',
       } )
@@ -65,7 +64,10 @@ export const patchUserRequest = async ( data: IUser ): Promise<IResponseUser> =>
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
-      headers: headerWithAuthorization,
+      headers: {
+         'Content-Type': 'application/json',
+         Authorization: 'Bearer ' + getCookie( 'token' )
+      },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify( data )
@@ -124,7 +126,10 @@ export const resetPasswordRequest = async ( data: IResetForm ): Promise<IRespons
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
-      headers: headerWithAuthorization,
+      headers: {
+         'Content-Type': 'application/json',
+         Authorization: 'Bearer ' + getCookie( 'token' )
+      },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify( data )
@@ -138,7 +143,10 @@ export const forgotPasswordRequest = async ( data: IEmailForm ): Promise<IRespon
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
-      headers: headerWithAuthorization,
+      headers: {
+         'Content-Type': 'application/json',
+         Authorization: 'Bearer ' + getCookie( 'token' )
+      },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify( data )
@@ -148,7 +156,10 @@ export const forgotPasswordRequest = async ( data: IEmailForm ): Promise<IRespon
 export const orderIdRequest = async ( data: { ingredients: string[] } ): Promise<TOrderIdRequest> => {
    return await request( `${ NORMA_API }/orders`, {
       method: 'POST',
-      headers: headerWithAuthorization,
+      headers: {
+         'Content-Type': 'application/json',
+         Authorization: 'Bearer ' + getCookie( 'token' )
+      },
       body: JSON.stringify( data )
    } )
 }
