@@ -89,7 +89,7 @@ export interface TOrderIdRequest {
 
 export type TOrder = {
    _id: string,
-   ingredients: Array<IIngredient>,
+   ingredients: Array<string>,
    status: 'created' | 'pending' | 'done',
    name: string,
    createdAt: string,

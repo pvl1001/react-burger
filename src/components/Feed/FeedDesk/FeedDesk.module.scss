@@ -16,7 +16,10 @@
 
 .status_list {
    display: grid;
-   gap: 8px
+   gap: 8px;
+   grid-template-rows: repeat(10, auto);
+   grid-template-columns: 1fr 1fr;
+   grid-auto-flow: column;
 }
 
 .done {

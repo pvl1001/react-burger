@@ -3,44 +3,49 @@ import FeedIngredients from "./FeedIngredients";
 import Price from "../../Price/Price";
 import { FC } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { TOrder } from "../../../utils/types";
+import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
+import Status from "../../Status/Status";
+import useTotalPrice from "../../../hooks/useTotalPrice";
 
 
 type TProps = {
-   status?: boolean
+   order: TOrder
+   hasStatus?: boolean
 }
 
 
-const FeedOrder: FC<TProps> = ( { status } ) => {
+const FeedOrder: FC<TProps> = ( { order, hasStatus } ) => {
    const navigate = useNavigate()
    const location = useLocation()
+   const { totalPrice } = useTotalPrice( order.ingredients )
 
    function onClick() {
-      navigate( `1`, { state: { background: location } } )
+      navigate( order._id, { state: { background: location } } )
    }
 
 
    return (
       <li className={ `${ s.item } p-6` } onClick={ onClick }>
          <div className={ s.item__row }>
-            <span className="text text_type_digits-default">1234567890</span>
-            <span className="text text_type_main-default text_color_inactive">date</span>
+            <span className="text text_type_digits-default">#{ order.number }</span>
+            <span className="text text_type_main-default text_color_inactive">
+               <FormattedDate date={ new Date( order.updatedAt ) }/></span>
          </div>
 
          <div>
             <p className="text text_type_main-medium">
-               Death Star Starship Main бургер
+               { order.name }
             </p>
 
-            { status &&
-               <p className="text text_type_main-default mt-2">
-                  Создан
-               </p>
+            { hasStatus &&
+               <Status status={ order.status }/>
             }
          </div>
 
          <div className={ s.item__row }>
-            <FeedIngredients/>
-            <Price>0</Price>
+            <FeedIngredients ingredients={ order.ingredients }/>
+            <Price>{ totalPrice }</Price>
          </div>
       </li>
    )

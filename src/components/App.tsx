@@ -51,7 +51,7 @@ const App: FC = () => {
 
          <AppHeader/>
 
-         <main className="main wrapper pt-10 pb-10">
+         <main className="main wrapper pt-10">
             <Routes location={ background || location }>
                <Route path={ '/' } element={ <HomePage/> }/>
                <Route path={ '/feed' } element={ <FeedPage/> }/>
