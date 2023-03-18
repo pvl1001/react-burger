@@ -56,7 +56,7 @@ const App: FC = () => {
             <Routes location={ background || location }>
                <Route path={ routes.home } element={ <HomePage/> }/>
                <Route path={ routes.feed } element={ <FeedPage/> }/>
-               <Route path={ routes.feedId } element={ <OrderIdPage/> }/>
+               <Route path={ routes.feedId } element={ <OrderIdPage path={ routes.feedId }/> }/>
                <Route path={ routes.ingredientsId } element={ <IngredientsId/> }/>
                <Route path={ routes.error } element={ <ErrorPage/> }/>
 
@@ -95,7 +95,7 @@ const App: FC = () => {
 
                <Route path={ routes.ordersId } element={
                   <ProtectedRouteElement>
-                     <OrderIdPage/>
+                     <OrderIdPage path={ routes.ordersId }/>
                   </ProtectedRouteElement> }
                />
             </Routes>
@@ -112,14 +112,14 @@ const App: FC = () => {
                   <Route path={ routes.ordersId } element={
                      <ProtectedRouteElement>
                         <Modal onClose={ () => navigate( -1 ) }>
-                           <OrderIdPage/>
+                           <OrderIdPage path={ routes.ordersId }/>
                         </Modal>
                      </ProtectedRouteElement>
                   }/>
 
                   <Route path={ routes.feedId } element={
                      <Modal onClose={ () => navigate( -1 ) }>
-                        <OrderIdPage/>
+                        <OrderIdPage path={ routes.feedId }/>
                      </Modal>
                   }/>
                </Routes>

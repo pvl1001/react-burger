@@ -3,7 +3,7 @@ import s from './ProfileNav.module.scss'
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../../services/slices/authSlice";
-import { AppDispatch } from "../../../services/store";
+import { AppDispatch } from "../../../services/types";
 
 
 const ProfileNav: FC = () => {

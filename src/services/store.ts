@@ -6,26 +6,28 @@ import currentIngredientSlice from "./slices/currentIngredientSlice";
 import loaderSlice from "./slices/loaderSlice";
 import authSlice from "./slices/authSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import wsSlice from "./slices/wsSlice";
 import { socketMiddleware } from "./middleware/socketMiddleware";
+import wsFeedSlice from "./slices/wsFeedSlice";
+import { AppDispatch, RootState, TwsProfileActions, TwsFeedActions } from "./types";
+import wsProfileSlice from "./slices/wsProfileSlice";
 
 
-export type TwsActions = {
-   wsConnection: 'webSocket/wsConnection',
-   wsOffline: 'webSocket/wsOffline',
-   wsOpen: 'webSocket/wsOpen',
-   wsError: 'webSocket/wsConnectionError',
-   wsMessage: 'webSocket/wsGetOrders',
-   wsClose: 'webSocket/wsClose',
+const wsProfileActions: TwsProfileActions = {
+   wsConnection: 'webSocketProfile/wsProfileConnection',
+   wsOffline: 'webSocketProfile/wsProfileOffline',
+   wsOpen: 'webSocketProfile/wsProfileOpen',
+   wsError: 'webSocketProfile/wsProfileConnectionError',
+   wsMessage: 'webSocketProfile/wsProfileGetOrders',
+   wsClose: 'webSocketProfile/wsProfileClose',
 }
 
-const wsActions: TwsActions = {
-   wsConnection: 'webSocket/wsConnection',
-   wsOffline: 'webSocket/wsOffline',
-   wsOpen: 'webSocket/wsOpen',
-   wsError: 'webSocket/wsConnectionError',
-   wsMessage: 'webSocket/wsGetOrders',
-   wsClose: 'webSocket/wsClose',
+const wsFeedActions: TwsFeedActions = {
+   wsConnection: 'webSocketFeed/wsFeedConnection',
+   wsOffline: 'webSocketFeed/wsFeedOffline',
+   wsOpen: 'webSocketFeed/wsFeedOpen',
+   wsError: 'webSocketFeed/wsFeedConnectionError',
+   wsMessage: 'webSocketFeed/wsFeedGetOrders',
+   wsClose: 'webSocketFeed/wsFeedClose',
 }
 
 
@@ -37,15 +39,17 @@ const store = configureStore( {
       currentIngredient: currentIngredientSlice,
       order: orderSlice,
       loader: loaderSlice,
-      webSocket: wsSlice,
+      webSocketProfile: wsProfileSlice,
+      webSocketFeed: wsFeedSlice,
    },
    devTools: process.env.NODE_ENV === 'development',
    middleware: ( getDefaultMiddleware ) =>
-      getDefaultMiddleware().concat( socketMiddleware( wsActions ) ),
+      getDefaultMiddleware().concat(
+         socketMiddleware( wsProfileActions ),
+         socketMiddleware( wsFeedActions )
+      ),
 } )
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch

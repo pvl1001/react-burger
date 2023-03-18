@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { TWsData } from "../../utils/types"
 
-type TWsState = {
+export type TWsState = {
    url: string,
    status: string,
    error: null | Event,
@@ -15,26 +15,27 @@ const initialState: TWsState = {
    data: null,
 }
 
-const wsSlice = createSlice( {
-   name: 'webSocket',
+const wsProfileSlice = createSlice( {
+   name: 'webSocketProfile',
    initialState,
    reducers: {
-      wsOpen( state, action ) {
+      wsProfileOpen( state, action ) {
          state.status = action.payload
       },
-      wsClose() {
+      wsProfileClose() {
          return initialState
       },
-      wsConnection( state, action ) {
+      wsProfileConnection( state, action ) {
          state.url = action.payload
       },
-      wsOffline( state ) {
+      wsProfileOffline( state ) {
          state.status = 'close'
       },
-      wsError( state, action ) {
+      wsProfileError( state, action ) {
+         state.status = action.payload.type
          state.error = action.payload
       },
-      wsGetOrders( state, action ) {
+      wsProfileGetOrders( state, action ) {
          state.data = action.payload
       },
    },
@@ -42,11 +43,8 @@ const wsSlice = createSlice( {
 
 
 export const {
-   wsOpen,
-   wsClose,
-   wsConnection,
-   wsOffline,
-   wsError,
-   wsGetOrders,
-} = wsSlice.actions
-export default wsSlice.reducer
+   wsProfileConnection,
+   wsProfileOffline,
+} = wsProfileSlice.actions
+
+export default wsProfileSlice.reducer

@@ -4,16 +4,16 @@ import FeedOrders from "../../components/Feed/FeedOrders/FeedOrders";
 import FeedDesk from "../../components/Feed/FeedDesk/FeedDesk";
 import { useAppDispatch } from "../../services/store";
 import { WS_NORMA_API } from "../../utils/api";
-import { wsConnection, wsOffline } from "../../services/slices/wsSlice";
+import { wsFeedConnection, wsFeedOffline } from "../../services/slices/wsFeedSlice";
 
 
 const FeedPage: FC = () => {
    const dispatch = useAppDispatch()
 
    useEffect( () => {
-      dispatch( wsConnection( `${ WS_NORMA_API }/orders/all` ) )
+      dispatch( wsFeedConnection( `${ WS_NORMA_API }/orders/all` ) )
       return () => {
-         dispatch( wsOffline() )
+         dispatch( wsFeedOffline() )
       }
    }, [] )
 

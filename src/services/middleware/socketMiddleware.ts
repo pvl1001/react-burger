@@ -1,8 +1,8 @@
 import type { Middleware, MiddlewareAPI } from 'redux'
-import { AppDispatch, RootState, TwsActions } from "../store"
+import { AppDispatch, RootState, TwsProfileActions, TwsFeedActions } from "../types"
 
 
-export const socketMiddleware = ( wsActions: TwsActions ): Middleware => {
+export const socketMiddleware = ( wsActions: TwsProfileActions | TwsFeedActions ): Middleware => {
    return (( store: MiddlewareAPI<AppDispatch, RootState> ) => {
       let ws: WebSocket | null = null
 
@@ -16,11 +16,9 @@ export const socketMiddleware = ( wsActions: TwsActions ): Middleware => {
             ws = new WebSocket( payload )
          }
 
-         if ( type === wsOffline ) {
-            if ( ws ) {
-               ws.close( 1000, `WebSocket closed` )
-               ws = null
-            }
+         if ( ws && type === wsOffline ) {
+            ws.close( 1000, `WebSocket success closed` )
+            ws = null
          }
 
          if ( ws ) {

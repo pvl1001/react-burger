@@ -5,7 +5,7 @@ import { TOrder } from "../../../utils/types";
 
 
 const FeedDesk: FC = () => {
-   const wsData = useAppSelector( store => store.webSocket.data )
+   const wsData = useAppSelector( store => store.webSocketFeed.data )
    const doneList: TOrder[] | undefined = wsData?.orders.filter( order => order.status === 'done' )
    const inWorkList: TOrder[] | undefined = wsData?.orders.filter( order => order.status === 'pending' )
 

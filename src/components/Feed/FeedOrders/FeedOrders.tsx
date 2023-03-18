@@ -6,7 +6,7 @@ import { TOrder } from "../../../utils/types";
 
 
 const FeedOrders: FC = () => {
-   const orders: TOrder[] | undefined = useAppSelector( store => store.webSocket.data?.orders )
+   const orders: TOrder[] | undefined = useAppSelector( store => store.webSocketFeed.data?.orders )
 
    if ( !orders ) return null
    return (

@@ -3,20 +3,20 @@ import s from './ProfileOrders.module.scss';
 import FeedOrder from "../../Feed/FeedOrders/FeedOrder";
 import { useAppDispatch, useAppSelector } from "../../../services/store";
 import { getCookie } from "../../../utils/setCookie";
-import { wsConnection, wsOffline } from "../../../services/slices/wsSlice";
+import { wsProfileConnection, wsProfileOffline } from "../../../services/slices/wsProfileSlice";
 import { WS_NORMA_API } from "../../../utils/api";
 
 
 const ProfileOrders: FC = () => {
    const dispatch = useAppDispatch()
-   const orders = useAppSelector( store => store.webSocket.data?.orders )
+   const orders = useAppSelector( store => store.webSocketProfile.data?.orders )
 
    useEffect( () => {
       const token = getCookie( 'token' )
-      dispatch( wsConnection( `${ WS_NORMA_API }/orders?token=${ token }` ) )
+      dispatch( wsProfileConnection( `${ WS_NORMA_API }/orders?token=${ token }` ) )
 
       return () => {
-         dispatch( wsOffline() )
+         dispatch( wsProfileOffline() )
       }
    }, [] )
 

@@ -8,25 +8,41 @@ import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-component
 import useTotalPrice from "../../hooks/useTotalPrice";
 import { useEffect } from "react";
 import { getCookie } from "../../utils/setCookie";
-import { wsConnection } from "../../services/slices/wsSlice";
+import { wsProfileConnection, wsProfileOffline } from "../../services/slices/wsProfileSlice";
 import { WS_NORMA_API } from "../../utils/api";
+import routes from "../../utils/routes";
+import { RootState } from "../../services/types";
+import { wsFeedConnection, wsFeedOffline } from "../../services/slices/wsFeedSlice";
 
 
-function OrderIdPage() {
+function OrderIdPage( { path }: { path: string } ) {
    const { id } = useParams()
    const dispatch = useAppDispatch()
+
+   // Получаем данные в зависимости от url страницы
+   const getData = ( store?: RootState ) => path === routes.ordersId ? {
+      orders: store?.webSocketProfile.data?.orders,
+      connect: () => dispatch( wsProfileConnection( `${ WS_NORMA_API }/orders?token=${ getCookie( 'token' ) }` ) ),
+      disconnect: () => dispatch( wsProfileOffline() )
+   } : {
+      orders: store?.webSocketFeed.data?.orders,
+      connect: () => dispatch( wsFeedConnection( `${ WS_NORMA_API }/orders/all` ) ),
+      disconnect: () => dispatch( wsFeedOffline() )
+   }
+
    const { orders, burgerIngredients } = useAppSelector( store => ({
-      orders: store.webSocket.data?.orders,
+      orders: getData( store ).orders,
       burgerIngredients: store.burgerIngredients,
    }) )
    const order = orders?.find( order => order._id === id )
    const { totalPrice } = useTotalPrice( order?.ingredients )
 
-
    useEffect( () => {
       if ( !orders?.length ) {
-         const token = getCookie( 'token' )
-         dispatch( wsConnection( `${ WS_NORMA_API }/orders?token=${ token }` ) )
+         getData().connect()
+         return () => {
+            getData().disconnect()
+         }
       }
    }, [] )
 
