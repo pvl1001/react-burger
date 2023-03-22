@@ -24,8 +24,15 @@ export const getUser = createAsyncThunk<TStoreUser>(
       } catch ( err: any ) {
          console.log( 'Ошибка getUser: ' + err.message )
          if ( err.message === 'jwt expired' ) {
-            const newToken = await getRefreshTokenRequest()
-            await authRequest( newToken )
+            const resRefresh = await getRefreshTokenRequest()
+            if ( !resRefresh.success ) {
+               console.error( resRefresh )
+            }
+            const authToken = resRefresh.accessToken.split( 'Bearer ' )[1]
+            setCookie( 'token', authToken )
+            setCookie( 'refreshToken', resRefresh.refreshToken )
+            console.log( 'Token refresh' )
+            await authRequest( authToken )
          }
          return rejectWithValue( err.message )
       } finally {

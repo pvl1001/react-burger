@@ -21,6 +21,7 @@ const ProfileOrders: FC = () => {
    }, [] )
 
 
+   if ( !orders ) return <p>Загрузка...</p>
    return (
       <ul className={ s._ + ' scrollbar' }>
          { orders?.map( ( order ) =>
