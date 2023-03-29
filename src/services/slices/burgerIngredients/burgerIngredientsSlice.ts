@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { request } from "../../utils/request";
-import { NORMA_API } from "../../utils/api";
-import { toggleLoader } from "./loaderSlice";
-import { IIngredient } from "../../utils/types";
+import { request } from "../../../utils/request";
+import { NORMA_API } from "../../../utils/api";
+import { toggleLoader } from "../loader/loaderSlice";
+import { IIngredient } from "../../../utils/types";
 
 
 export const getIngredients = createAsyncThunk<IIngredient[]>(

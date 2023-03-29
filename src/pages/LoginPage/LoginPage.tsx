@@ -1,7 +1,7 @@
 import s from './LoginPage.module.scss'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { userLogin } from "../../services/slices/authSlice";
+import { userLogin } from "../../services/slices/auth/authSlice";
 import { useForm } from "../../hooks/useForm";
 import { FC, FormEvent } from "react";
 import { useAppDispatch } from "../../services/store";

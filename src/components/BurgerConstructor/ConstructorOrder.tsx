@@ -3,8 +3,8 @@ import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-co
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import useModal from "../../hooks/useModal";
-import { getOrderId } from "../../services/slices/orderSlice";
-import { clearConstructor } from "../../services/slices/burgerConstructorSlice";
+import { getOrderId } from "../../services/slices/order/orderSlice";
+import { clearConstructor } from "../../services/slices/burgerConstructor/burgerConstructorSlice";
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 

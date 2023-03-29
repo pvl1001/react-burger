@@ -13,12 +13,12 @@ import ProfileForm from "./Profile/ProfileForm/ProfileForm"
 import NoAuthUserRoute from "./_hocs/noAuthUserRoute"
 import IngredientsId from "../pages/IngredientsId/IngredientsId"
 import { FC, useEffect } from "react"
-import { getIngredients } from "../services/slices/burgerIngredientsSlice"
+import { getIngredients } from "../services/slices/burgerIngredients/burgerIngredientsSlice"
 import Modal from "./Modal/Modal";
 import IngredientDetails from "./IngredientDetails/IngredientDetails";
-import { clearIngredientModal } from "../services/slices/currentIngredientSlice";
+import { clearIngredientModal } from "../services/slices/currentIngredient/currentIngredientSlice";
 import { getCookie } from "../utils/setCookie";
-import { getUser } from "../services/slices/authSlice";
+import { getUser } from "../services/slices/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../services/store";
 import FeedPage from "../pages/FeedPage/FeedPage";
 import OrderIdPage from "../pages/FeedIdPage/OrderIdPage";

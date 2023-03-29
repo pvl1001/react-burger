@@ -3,7 +3,7 @@ import s from './ProfileOrders.module.scss';
 import FeedOrder from "../../Feed/FeedOrders/FeedOrder";
 import { useAppDispatch, useAppSelector } from "../../../services/store";
 import { getCookie } from "../../../utils/setCookie";
-import { wsProfileConnection, wsProfileOffline } from "../../../services/slices/wsProfileSlice";
+import { wsProfileConnection, wsProfileOffline } from "../../../services/slices/ws/wsProfileSlice";
 import { WS_NORMA_API } from "../../../utils/api";
 
 

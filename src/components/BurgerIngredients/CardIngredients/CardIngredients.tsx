@@ -2,7 +2,7 @@ import s from './CardIngredients.module.scss'
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import useModal from "../../../hooks/useModal";
 import { useDispatch } from "react-redux";
-import { getIngredientModal } from "../../../services/slices/currentIngredientSlice";
+import { getIngredientModal } from "../../../services/slices/currentIngredient/currentIngredientSlice";
 import { useDrag } from "react-dnd";
 import { FC, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";

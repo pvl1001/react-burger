@@ -4,7 +4,7 @@ import { FC, useEffect, useReducer } from "react";
 import ConstructorOrder from "./ConstructorOrder";
 import { useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
-import { addItemConstructor } from "../../services/slices/burgerConstructorSlice";
+import { addItemConstructor } from "../../services/slices/burgerConstructor/burgerConstructorSlice";
 import { IIngredient } from "../../utils/types";
 import { useAppSelector } from "../../services/store";
 
@@ -36,7 +36,7 @@ const BurgerConstructor: FC = () => {
       drop( item: IIngredient ) {
          if ( item.index === undefined ) {
             const currentItem = ingredients.find( ( el: IIngredient ) => el._id === item._id )
-            dispatch( addItemConstructor( currentItem ) )
+            dispatch( addItemConstructor( { ...currentItem, item_id: new Date().getTime() } ) )
          }
       },
       collect: ( monitor ) => ({

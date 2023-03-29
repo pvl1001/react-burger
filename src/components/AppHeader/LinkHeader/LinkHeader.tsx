@@ -17,8 +17,8 @@ const LinkHeader: FC<ILinkHeaderProps> = ( { icon, path, name, className = '' } 
          className={ `${ s._ } ${ className } p-5` }>
          { ( { isActive } ) =>
             <>
-               <span className="mr-2">{ icon( isActive ) }</span>
-               <span className={ `text text_type_main-default ${ !isActive && 'text_color_inactive' }` }>
+               <span data-cy="test" className="mr-2">{ icon( isActive ) }</span>
+               <span data-cy="test2" className={ `text text_type_main-default ${ !isActive && 'text_color_inactive' }` }>
                   { name }</span>
             </>
          }

@@ -37,7 +37,11 @@ const wsFeedSlice = createSlice( {
 
 
 export const {
+   wsFeedOpen,
+   wsFeedClose,
    wsFeedConnection,
    wsFeedOffline,
+   wsFeedError,
+   wsFeedGetOrders,
 } = wsFeedSlice.actions
 export default wsFeedSlice.reducer

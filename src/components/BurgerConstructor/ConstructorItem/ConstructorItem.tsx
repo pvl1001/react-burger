@@ -2,7 +2,7 @@ import s from './ConstructorItem.module.scss'
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
-import { removeItemConstructor, sortItemConstructor } from "../../../services/slices/burgerConstructorSlice";
+import { removeItemConstructor, sortItemConstructor } from "../../../services/slices/burgerConstructor/burgerConstructorSlice";
 import { FC, useRef } from "react";
 import { IIngredient } from "../../../utils/types";
 import type { Identifier, XYCoord } from 'dnd-core'

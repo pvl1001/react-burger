@@ -1,15 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit"
-import burgerIngredientsSlice from './slices/burgerIngredientsSlice'
-import burgerConstructorSlice from "./slices/burgerConstructorSlice"
-import orderSlice from "./slices/orderSlice";
-import currentIngredientSlice from "./slices/currentIngredientSlice";
-import loaderSlice from "./slices/loaderSlice";
-import authSlice from "./slices/authSlice";
+import burgerIngredientsSlice from './slices/burgerIngredients/burgerIngredientsSlice'
+import burgerConstructorSlice from "./slices/burgerConstructor/burgerConstructorSlice"
+import orderSlice from "./slices/order/orderSlice";
+import currentIngredientSlice from "./slices/currentIngredient/currentIngredientSlice";
+import loaderSlice from "./slices/loader/loaderSlice";
+import authSlice from "./slices/auth/authSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { socketMiddleware } from "./middleware/socketMiddleware";
-import wsFeedSlice from "./slices/wsFeedSlice";
+import wsFeedSlice from "./slices/ws/wsFeedSlice";
 import { AppDispatch, RootState, TwsProfileActions, TwsFeedActions } from "./types";
-import wsProfileSlice from "./slices/wsProfileSlice";
+import wsProfileSlice from "./slices/ws/wsProfileSlice";
 
 
 const wsProfileActions: TwsProfileActions = {

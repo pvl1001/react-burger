@@ -3,7 +3,7 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
 import { useForm } from "../hooks/useForm";
 import { FC, FormEvent } from "react";
-import { toggleLoader } from "../services/slices/loaderSlice";
+import { toggleLoader } from "../services/slices/loader/loaderSlice";
 import { resetPasswordRequest } from "../utils/api";
 import { useAppDispatch } from "../services/store";
 
