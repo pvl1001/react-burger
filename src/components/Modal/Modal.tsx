@@ -28,7 +28,7 @@ const Modal: FC<PropsWithChildren<IModalProps>> = ( { children, header, onClose 
 
          <div className={ s.modal + ' pt-10 pl-10 pr-10 pb-15' }>
 
-            <button className={ s.close_btn } onClick={ onClose }>
+            <button data-cy="close_btn" className={ s.close_btn } onClick={ onClose }>
                <CloseIcon type="primary"/>
             </button>
 

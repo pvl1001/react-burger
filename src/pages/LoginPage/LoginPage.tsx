@@ -26,6 +26,7 @@ const LoginPage: FC = () => {
 
          <EmailInput
             required
+            data-cy="email_input"
             extraClass={ 'mb-6' }
             onChange={ handleChange }
             value={ values.email }
@@ -34,6 +35,7 @@ const LoginPage: FC = () => {
 
          <PasswordInput
             required
+            data-cy="password_input"
             extraClass={ 'mb-6' }
             onChange={ handleChange }
             value={ values.password }

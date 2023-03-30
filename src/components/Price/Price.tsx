@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import s from "./Price.module.scss";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 

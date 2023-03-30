@@ -1,0 +1,63 @@
+{
+   "success": true,
+   "name": "Space флюоресцентный бургер",
+   "order": {
+      "ingredients": [
+         {
+            "_id": "60d3b41abdacab0026a733c7",
+            "name": "Флюоресцентная булка R2-D3",
+            "type": "bun",
+            "proteins": 44,
+            "fat": 26,
+            "carbohydrates": 85,
+            "calories": 643,
+            "price": 988,
+            "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+            "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+            "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+            "__v": 0
+         },
+         {
+            "_id": "60d3b41abdacab0026a733cd",
+            "name": "Соус фирменный Space Sauce",
+            "type": "sauce",
+            "proteins": 50,
+            "fat": 22,
+            "carbohydrates": 11,
+            "calories": 14,
+            "price": 80,
+            "image": "https://code.s3.yandex.net/react/code/sauce-04.png",
+            "image_mobile": "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+            "image_large": "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+            "__v": 0
+         },
+         {
+            "_id": "60d3b41abdacab0026a733c7",
+            "name": "Флюоресцентная булка R2-D3",
+            "type": "bun",
+            "proteins": 44,
+            "fat": 26,
+            "carbohydrates": 85,
+            "calories": 643,
+            "price": 988,
+            "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+            "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+            "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+            "__v": 0
+         }
+      ],
+      "_id": "6425a2ba0905fd001b624ea9",
+      "owner": {
+         "name": "Павел",
+         "email": "meloman1001@yandex.ru",
+         "createdAt": "2023-01-31T15:50:22.167Z",
+         "updatedAt": "2023-03-18T15:35:37.638Z"
+      },
+      "status": "done",
+      "name": "Space флюоресцентный бургер",
+      "createdAt": "2023-03-30T14:54:50.260Z",
+      "updatedAt": "2023-03-30T14:54:51.093Z",
+      "number": 46861,
+      "price": 2056
+   }
+}

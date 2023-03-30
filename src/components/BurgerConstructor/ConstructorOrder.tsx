@@ -36,7 +36,7 @@ const ConstructorOrder: FC<IConstructorOrderProps> = ( { totalPrice, ingredients
 
    return (
       <>
-         { !user && <p className={ `${ s.description } text text_type_main-default text_color_inactive` }>
+         { !user && <p data-cy="order_description" className={ `${ s.description } text text_type_main-default text_color_inactive` }>
             Для оформления заказа необходимо авторизоваться</p> }
 
          <div className={ s.order + ' mt-10 pr-4' }>

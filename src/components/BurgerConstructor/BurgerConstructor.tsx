@@ -58,6 +58,7 @@ const BurgerConstructor: FC = () => {
          <div
             ref={ dropTargetRef }
             style={ { borderColor } }
+            data-cy="constructor"
             className={ `${ s.constructor }` }
          >
             { order.length

@@ -9,7 +9,7 @@ const OrderDetails: FC = () => {
 
    return (
       <div className={ s._ + ' pl-15 pr-15 pt-4 pb-15' }>
-         <p className={ s.id + ' text text_type_digits-large mb-8' }>
+         <p className={ s.id + ' text text_type_digits-large mb-8' } data-cy="order_id">
             { orderId }</p>
          <p className="text text_type_main-medium">
             идентификатор заказа</p>

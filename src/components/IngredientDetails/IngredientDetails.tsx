@@ -26,7 +26,7 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ( { className = '' } ) =>
                <img className={ s.image } src={ image_large } alt="ингредиент"/>
             </picture>
 
-            <p className={ 'text text_type_main-medium mb-8' }>{ name }</p>
+            <p className={ 'text text_type_main-medium mb-8' } data-cy="modal_ingredient_name">{ name }</p>
 
             <ul className={ s.composition }>
                <Composition name={ 'Калории, ккал' } value={ calories }/>
