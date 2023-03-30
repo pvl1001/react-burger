@@ -1,23 +1,22 @@
 import s from "./LoginPage/LoginPage.module.scss"
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Link, useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux";
 import { userRegister } from "../services/slices/authSlice";
 import { useForm } from "../hooks/useForm";
 import { FC, FormEvent } from "react";
-import { AppDispatch } from "../services/store";
+import { useAppDispatch } from "../services/store";
 
 
 const RegisterPage: FC = () => {
-   const dispatch = useDispatch<AppDispatch>()
+   const dispatch = useAppDispatch()
    const navigate = useNavigate()
    const { values, handleChange } = useForm( { name: '', email: '', password: '' } )
 
    async function onSubmit( e: FormEvent<HTMLFormElement> ) {
       e.preventDefault()
 
-      const { success } = await dispatch( userRegister( values ) as any )
-      if ( success ) navigate( '/login' )
+      const res = await dispatch( userRegister( values ) )
+      if ( res?.meta.requestStatus === 'fulfilled' ) navigate( '/login' )
    }
 
 

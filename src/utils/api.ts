@@ -1,23 +1,22 @@
-import { getCookie, setCookie } from "./setCookie";
+import { getCookie } from "./setCookie";
 import { checkResponse, request } from "./request";
 import {
-   IUserForm,
    IResponseUser,
    IResponseAuth,
    ILoginForm,
    TRequestLogin,
    IResetForm,
-   IEmailForm,
+   IEmailForm, IUser, IResponseRegister, TOrderIdRequest,
 } from "./types";
 
 export const NORMA_API = 'https://norma.nomoreparties.space/api'
-
-const token = getCookie( 'token' )
-const refreshToken = getCookie( 'refreshToken' )
+export const WS_NORMA_API = 'wss://norma.nomoreparties.space'
 
 
-export const authRequest = async ( newToken?: string ): Promise<IResponseUser | void> => {
-   if ( newToken || token ) {
+export const authRequest = async ( newToken?: string ): Promise<IResponseUser> => {
+   const token = newToken || getCookie( 'token' )
+
+   if ( token ) {
       const res = await fetch( `${ NORMA_API }/auth/user`, {
          method: 'GET',
          mode: 'cors',
@@ -25,7 +24,7 @@ export const authRequest = async ( newToken?: string ): Promise<IResponseUser | 
          credentials: 'same-origin',
          headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${ newToken || token }`,
+            Authorization: 'Bearer ' + token
          },
          redirect: 'follow',
          referrerPolicy: 'no-referrer',
@@ -36,32 +35,28 @@ export const authRequest = async ( newToken?: string ): Promise<IResponseUser | 
 }
 
 
-export const getRefreshTokenRequest = async (): Promise<string> => {
-   if ( refreshToken ) {
-      const res = await request( `${ NORMA_API }/auth/token`, {
-         method: 'POST',
-         mode: 'cors',
-         cache: 'no-cache',
-         credentials: 'same-origin',
-         headers: { 'Content-Type': 'application/json', },
-         redirect: 'follow',
-         referrerPolicy: 'no-referrer',
-         body: JSON.stringify( { token: refreshToken } )
-      } )
-      if ( res.success ) {
-         const authToken = res.accessToken.split( 'Bearer ' )[1]
-         setCookie( 'token', authToken )
-         setCookie( 'refreshToken', res.refreshToken )
-         console.log( 'Token refresh' )
-         return authToken
+export const getRefreshTokenRequest = async (): Promise<any> => {
+   if ( getCookie( 'refreshToken' ) ) {
+      try {
+         return await request( `${ NORMA_API }/auth/token`, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify( { token: getCookie( 'refreshToken' ) } )
+         } )
+      } catch ( err ) {
+         return err
       }
-      throw res
    }
    throw { message: 'Отсутствует refreshToken - необходимо авторизоваться' }
 }
 
 
-export const patchUserRequest = async ( data: IUserForm ): Promise<IResponseUser> => {
+export const patchUserRequest = async ( data: IUser ): Promise<IResponseUser> => {
    return await request( `${ NORMA_API }/auth/user`, {
       method: 'PATCH',
       mode: 'cors',
@@ -69,7 +64,7 @@ export const patchUserRequest = async ( data: IUserForm ): Promise<IResponseUser
       credentials: 'same-origin',
       headers: {
          'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + token
+         Authorization: 'Bearer ' + getCookie( 'token' )
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -79,7 +74,7 @@ export const patchUserRequest = async ( data: IUserForm ): Promise<IResponseUser
 
 
 export const logoutRequest = async (): Promise<IResponseAuth> => {
-   if ( refreshToken ) {
+   if ( getCookie( 'refreshToken' ) ) {
       return await request( `${ NORMA_API }/auth/logout`, {
          method: 'POST',
          mode: 'cors',
@@ -88,10 +83,10 @@ export const logoutRequest = async (): Promise<IResponseAuth> => {
          headers: { 'Content-Type': 'application/json', },
          redirect: 'follow',
          referrerPolicy: 'no-referrer',
-         body: JSON.stringify( { token: refreshToken } )
+         body: JSON.stringify( { token: getCookie( 'refreshToken' ) } )
       } )
    }
-   throw { message: `refreshToken: ${ refreshToken }` }
+   throw { message: `refreshToken: ${ getCookie( 'refreshToken' ) }` }
 }
 
 
@@ -109,7 +104,7 @@ export const loginRequest = async ( data: ILoginForm ): Promise<TRequestLogin> =
 }
 
 
-export const registerRequest = async ( data: IUserForm ): Promise<IResponseAuth> => {
+export const registerRequest = async ( data: IUser ): Promise<IResponseRegister> => {
    return await request( `${ NORMA_API }/auth/register`, {
       method: 'POST',
       mode: 'cors',
@@ -131,7 +126,7 @@ export const resetPasswordRequest = async ( data: IResetForm ): Promise<IRespons
       credentials: 'same-origin',
       headers: {
          'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + token
+         Authorization: 'Bearer ' + getCookie( 'token' )
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -148,10 +143,21 @@ export const forgotPasswordRequest = async ( data: IEmailForm ): Promise<IRespon
       credentials: 'same-origin',
       headers: {
          'Content-Type': 'application/json',
-         Authorization: 'Bearer ' + token
+         Authorization: 'Bearer ' + getCookie( 'token' )
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
+      body: JSON.stringify( data )
+   } )
+}
+
+export const orderIdRequest = async ( data: { ingredients: string[] } ): Promise<TOrderIdRequest> => {
+   return await request( `${ NORMA_API }/orders`, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+         Authorization: 'Bearer ' + getCookie( 'token' )
+      },
       body: JSON.stringify( data )
    } )
 }

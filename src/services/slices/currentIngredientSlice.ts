@@ -1,12 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { IIngredient } from "../../utils/types";
 
+
+
+const initialState: IIngredient | null = null
 
 const currentIngredientSlice = createSlice( {
    name: 'currentIngredient',
-   initialState: {},
+   initialState,
    reducers: {
       clearIngredientModal() {
-         return {}
+         return null
       },
       getIngredientModal( state, action ) {
          return action.payload

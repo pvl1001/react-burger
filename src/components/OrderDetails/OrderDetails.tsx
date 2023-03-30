@@ -1,12 +1,11 @@
 import s from './OrderDetails.module.scss'
 import done from 'images/done.svg'
-import { useSelector } from "react-redux";
-import { RootState } from "../../services/store";
 import { FC } from "react";
+import { useAppSelector } from "../../services/store";
 
 
 const OrderDetails: FC = () => {
-   const orderId = useSelector( ( store: RootState ) => store.order.id )
+   const orderId = useAppSelector( store => store.order.id )
 
    return (
       <div className={ s._ + ' pl-15 pr-15 pt-4 pb-15' }>

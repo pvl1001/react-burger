@@ -1,5 +1,4 @@
 import AppHeader from "./AppHeader/AppHeader"
-import { useDispatch, useSelector } from "react-redux"
 import Loader from "./Loader/Loader"
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom"
 import HomePage from "../pages/HomePage"
@@ -8,10 +7,9 @@ import LoginPage from "../pages/LoginPage/LoginPage"
 import RegisterPage from "../pages/RegisterPage"
 import ForgotPasswordPage from "../pages/ForgotPasswordPage"
 import ResetPasswordPage from "../pages/ResetPaswordPage"
-import ProfilePage from "../pages/ProdfilePage/ProfilePage"
+import ProfilePage from "../pages/ProfilePage/ProfilePage"
 import ProtectedRouteElement from "./_hocs/ProtectedRouteElement"
-import FeedPage from "../pages/Feed"
-import ProfileForm from "./ProfileForm/ProfileForm"
+import ProfileForm from "./Profile/ProfileForm/ProfileForm"
 import NoAuthUserRoute from "./_hocs/noAuthUserRoute"
 import IngredientsId from "../pages/IngredientsId/IngredientsId"
 import { FC, useEffect } from "react"
@@ -21,24 +19,29 @@ import IngredientDetails from "./IngredientDetails/IngredientDetails";
 import { clearIngredientModal } from "../services/slices/currentIngredientSlice";
 import { getCookie } from "../utils/setCookie";
 import { getUser } from "../services/slices/authSlice";
-import { AppDispatch, RootState } from "../services/store";
+import { useAppDispatch, useAppSelector } from "../services/store";
+import FeedPage from "../pages/FeedPage/FeedPage";
+import OrderIdPage from "../pages/FeedIdPage/OrderIdPage";
+import ProfileOrders from "./Profile/ProfileOrders/ProfileOrders";
+import routes from "../utils/routes";
 
 
 const App: FC = () => {
-   const dispatch = useDispatch<AppDispatch>()
+   const dispatch = useAppDispatch()
    const location = useLocation()
    const navigate = useNavigate()
-   const loaderVisible = useSelector( ( store: RootState ) => store.loader.visible )
+   const loaderVisible = useAppSelector( store => store.loader.visible )
+   const user = useAppSelector( store => store.auth.user )
    const background = location.state?.background
 
    // получаем данные ингредиентов
    useEffect( () => {
-      if ( getCookie( 'token' ) ) dispatch( getUser() )
+      if ( getCookie( 'token' ) && !user ) dispatch( getUser() )
       dispatch( getIngredients() )
    }, [] )
 
-   function onCloseModal() {
-      navigate( '/' )
+   function onCloseIngredientModal() {
+      navigate( -1 )
       dispatch( clearIngredientModal() )
    }
 
@@ -49,62 +52,76 @@ const App: FC = () => {
 
          <AppHeader/>
 
-         <main className="main wrapper pt-10 pb-10">
+         <main className="main wrapper pt-10">
             <Routes location={ background || location }>
-               <Route path={ '/' } element={ <HomePage/> }/>
-               <Route path={ '/feed' } element={ <FeedPage/> }/>
-               <Route path={ '/ingredients/:id' } element={ <IngredientsId/> }/>
-               <Route path={ '*' } element={ <ErrorPage/> }/>
+               <Route path={ routes.home } element={ <HomePage/> }/>
+               <Route path={ routes.feed } element={ <FeedPage/> }/>
+               <Route path={ routes.feedId } element={ <OrderIdPage path={ routes.feedId }/> }/>
+               <Route path={ routes.ingredientsId } element={ <IngredientsId/> }/>
+               <Route path={ routes.error } element={ <ErrorPage/> }/>
 
-               <Route path={ '/login' } element={
+               <Route path={ routes.login } element={
                   <NoAuthUserRoute>
                      <LoginPage/>
                   </NoAuthUserRoute>
                }/>
 
-               <Route path={ '/register' } element={
+               <Route path={ routes.register } element={
                   <NoAuthUserRoute>
                      <RegisterPage/>
                   </NoAuthUserRoute>
                }/>
 
-               <Route path={ '/forgot-password' } element={
+               <Route path={ routes.forgotPassword } element={
                   <NoAuthUserRoute>
                      <ForgotPasswordPage/>
                   </NoAuthUserRoute>
                }/>
 
-               <Route path={ '/reset-password' } element={
+               <Route path={ routes.resetPassword } element={
                   <NoAuthUserRoute>
                      <ResetPasswordPage/>
                   </NoAuthUserRoute>
                }/>
 
-               <Route path={ '/profile' } element={
+               <Route path={ routes.profile } element={
                   <ProtectedRouteElement>
                      <ProfilePage/>
                   </ProtectedRouteElement>
                }>
-                  <Route path={ '' } element={ <ProfileForm/> }/>
-                  <Route path={ 'orders' } element={ <h1>Orders</h1> }>
-                     <Route path={ ':id' } element={ <h1>OrderId</h1> }/>
-                  </Route>
+                  <Route path={ routes.profile } element={ <ProfileForm/> }/>
+                  <Route path={ routes.orders } element={ <ProfileOrders/> }/>
                </Route>
+
+               <Route path={ routes.ordersId } element={
+                  <ProtectedRouteElement>
+                     <OrderIdPage path={ routes.ordersId }/>
+                  </ProtectedRouteElement> }
+               />
             </Routes>
 
             { background &&
                <Routes>
-                  <Route
-                     path="/ingredients/:id"
-                     element={
-                        <Modal
-                           header={ 'Детали ингредиента' }
-                           onClose={ onCloseModal }
-                        >
-                           <IngredientDetails/>
+                  <Route path={ routes.ingredientsId } element={
+                     <Modal
+                        header={ 'Детали ингредиента' }
+                        onClose={ onCloseIngredientModal }
+                     ><IngredientDetails/></Modal>
+                  }/>
+
+                  <Route path={ routes.ordersId } element={
+                     <ProtectedRouteElement>
+                        <Modal onClose={ () => navigate( -1 ) }>
+                           <OrderIdPage path={ routes.ordersId }/>
                         </Modal>
-                     }
-                  />
+                     </ProtectedRouteElement>
+                  }/>
+
+                  <Route path={ routes.feedId } element={
+                     <Modal onClose={ () => navigate( -1 ) }>
+                        <OrderIdPage path={ routes.feedId }/>
+                     </Modal>
+                  }/>
                </Routes>
             }
          </main>

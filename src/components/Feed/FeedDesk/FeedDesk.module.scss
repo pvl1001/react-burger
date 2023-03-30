@@ -1,0 +1,27 @@
+._ {
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+   gap: 60px;
+}
+
+.row {
+   display: flex;
+   gap: 36px;
+}
+
+.status {
+   flex: 1;
+}
+
+.status_list {
+   display: grid;
+   gap: 8px;
+   grid-template-rows: repeat(10, auto);
+   grid-template-columns: 1fr 1fr;
+   grid-auto-flow: column;
+}
+
+.done {
+   color: #00CCCC;
+}

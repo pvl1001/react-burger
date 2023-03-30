@@ -1,8 +1,7 @@
 import s from "./IngredientDetails.module.scss";
 import Composition from "./Composition";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../services/store";
+import { useAppSelector } from "../../services/store";
 import { FC } from "react";
 import { IIngredient } from "../../utils/types";
 
@@ -13,7 +12,7 @@ interface IIngredientDetailsProps {
 
 const IngredientDetails: FC<IIngredientDetailsProps> = ( { className = '' } ) => {
    const { id } = useParams<string>()
-   const item = useSelector( ( store: RootState ) =>
+   const item = useAppSelector( store =>
       store.burgerIngredients.ingredients.find( ( el: IIngredient ) => el._id === id ) )
 
    if ( !item ) return null

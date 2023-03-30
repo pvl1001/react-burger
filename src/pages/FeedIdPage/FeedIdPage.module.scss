@@ -1,0 +1,36 @@
+._ {
+   margin: auto;
+   width: 640px;
+}
+
+.order_number {
+   text-align: center;
+}
+
+.order_status {
+   color: #00CCCC;
+}
+
+.order_list {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   max-height: 305px;
+   overflow: auto;
+}
+
+.ingredient {
+   display: flex;
+   gap: 16px;
+   align-items: center;
+
+   &__name {
+      flex: 1;
+   }
+}
+
+.order_total {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}

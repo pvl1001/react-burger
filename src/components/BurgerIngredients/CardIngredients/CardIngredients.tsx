@@ -1,13 +1,14 @@
 import s from './CardIngredients.module.scss'
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import useModal from "../../../hooks/useModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getIngredientModal } from "../../../services/slices/currentIngredientSlice";
 import { useDrag } from "react-dnd";
 import { FC, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IIngredient } from "../../../utils/types";
-import { RootState } from "../../../services/store";
+import Price from "../../Price/Price";
+import { useAppSelector } from "../../../services/store";
 
 
 interface ICardIngredientsProps {
@@ -20,7 +21,7 @@ const CardIngredients: FC<ICardIngredientsProps> = ( { data } ) => {
    const location = useLocation()
 
    const { visible } = useModal()
-   const { bun, ingredients } = useSelector( ( store: RootState ) => store.burgerConstructor )
+   const { bun, ingredients } = useAppSelector( store => store.burgerConstructor )
    const [ , cardRef ] = useDrag( {
       type: 'ingredient',
       item: data,
@@ -50,8 +51,7 @@ const CardIngredients: FC<ICardIngredientsProps> = ( { data } ) => {
             <img className={ s.image } src={ data.image } alt="ингредиент"/>
          </picture>
 
-         <p className={ s.price + ' text text_type_digits-default pt-1 pb-1' }>
-            { data.price }<CurrencyIcon type="primary"/></p>
+         <Price>{ data.price }</Price>
 
          <p className={ s.name + ' text text_type_main-small' }>{ data.name }</p>
       </li>

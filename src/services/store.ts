@@ -5,7 +5,31 @@ import orderSlice from "./slices/orderSlice";
 import currentIngredientSlice from "./slices/currentIngredientSlice";
 import loaderSlice from "./slices/loaderSlice";
 import authSlice from "./slices/authSlice";
-import { useDispatch } from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { socketMiddleware } from "./middleware/socketMiddleware";
+import wsFeedSlice from "./slices/wsFeedSlice";
+import { AppDispatch, RootState, TwsProfileActions, TwsFeedActions } from "./types";
+import wsProfileSlice from "./slices/wsProfileSlice";
+
+
+const wsProfileActions: TwsProfileActions = {
+   wsConnection: 'webSocketProfile/wsProfileConnection',
+   wsOffline: 'webSocketProfile/wsProfileOffline',
+   wsOpen: 'webSocketProfile/wsProfileOpen',
+   wsError: 'webSocketProfile/wsProfileConnectionError',
+   wsMessage: 'webSocketProfile/wsProfileGetOrders',
+   wsClose: 'webSocketProfile/wsProfileClose',
+}
+
+const wsFeedActions: TwsFeedActions = {
+   wsConnection: 'webSocketFeed/wsFeedConnection',
+   wsOffline: 'webSocketFeed/wsFeedOffline',
+   wsOpen: 'webSocketFeed/wsFeedOpen',
+   wsError: 'webSocketFeed/wsFeedConnectionError',
+   wsMessage: 'webSocketFeed/wsFeedGetOrders',
+   wsClose: 'webSocketFeed/wsFeedClose',
+}
+
 
 const store = configureStore( {
    reducer: {
@@ -15,17 +39,19 @@ const store = configureStore( {
       currentIngredient: currentIngredientSlice,
       order: orderSlice,
       loader: loaderSlice,
+      webSocketProfile: wsProfileSlice,
+      webSocketFeed: wsFeedSlice,
    },
    devTools: process.env.NODE_ENV === 'development',
-   middleware: getDefaultMiddleware =>
-      getDefaultMiddleware( {
-         serializableCheck: false,
-      } )
+   middleware: ( getDefaultMiddleware ) =>
+      getDefaultMiddleware().concat(
+         socketMiddleware( wsProfileActions ),
+         socketMiddleware( wsFeedActions )
+      ),
 } )
 
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
 
-export type RootState = ReturnType<typeof store.getState>
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch: () => AppDispatch = useDispatch
 
 export default store
