@@ -1,5 +1,5 @@
 {
-   "homepage": "https://github.com/pvl1001/react-burger.git",
+   "homepage": "https://github.com/pvl1001/react-burger",
    "name": "react-burger",
    "version": "0.1.0",
    "private": true,
@@ -34,6 +34,7 @@
       "eslint": "^8.31.0",
       "eslint-plugin-cypress": "^2.12.1",
       "eslint-plugin-react": "^7.31.11",
+      "gh-pages": "^5.0.0",
       "prop-types": "^15.8.1",
       "sass": "^1.57.1"
    },
@@ -44,7 +45,9 @@
       "serve": "serve -s build",
       "cypress:open": "./node_modules/.bin/cypress open",
       "lint": "eslint .",
-      "lint:fix": "eslint --fix"
+      "lint:fix": "eslint --fix",
+      "predeploy": "npm run build",
+      "deploy": "gh-pages -d build"
    },
    "eslintConfig": {
       "extends": [
