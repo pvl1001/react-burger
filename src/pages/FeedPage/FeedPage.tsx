@@ -4,7 +4,7 @@ import FeedOrders from "../../components/Feed/FeedOrders/FeedOrders";
 import FeedDesk from "../../components/Feed/FeedDesk/FeedDesk";
 import { useAppDispatch } from "../../services/store";
 import { WS_NORMA_API } from "../../utils/api";
-import { wsFeedConnection, wsFeedOffline } from "../../services/slices/wsFeedSlice";
+import { wsFeedConnection, wsFeedOffline } from "../../services/slices/ws/wsFeedSlice";
 
 
 const FeedPage: FC = () => {

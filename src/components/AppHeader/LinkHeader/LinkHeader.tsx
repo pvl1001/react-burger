@@ -14,11 +14,12 @@ const LinkHeader: FC<ILinkHeaderProps> = ( { icon, path, name, className = '' } 
    return (
       <NavLink
          to={ path }
+         data-cy="header_link"
          className={ `${ s._ } ${ className } p-5` }>
          { ( { isActive } ) =>
             <>
                <span className="mr-2">{ icon( isActive ) }</span>
-               <span className={ `text text_type_main-default ${ !isActive && 'text_color_inactive' }` }>
+               <span className={ `text text_type_main-default ${ !isActive ? 'text_color_inactive' : '' }` }>
                   { name }</span>
             </>
          }

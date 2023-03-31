@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { orderIdRequest } from "../../utils/api";
-import { toggleLoader } from "./loaderSlice";
+import { orderIdRequest } from "../../../utils/api";
+import { toggleLoader } from "../loader/loaderSlice";
 
 
 export const getOrderId = createAsyncThunk<string, string[]>(
@@ -21,7 +21,7 @@ export const getOrderId = createAsyncThunk<string, string[]>(
 )
 
 
-type TInitialState = {
+export type TInitialState = {
    id: string,
    idRequest: boolean,
    idFailed: boolean,

@@ -22,6 +22,7 @@
       "jsx": "react-jsx"
    },
    "include": [
-      "src"
+      "src",
+      "node_modules/.pnpm/cypress@12.8.1/node_modules/cypress/types/cypress-global-vars.d.ts"
    ]
 }

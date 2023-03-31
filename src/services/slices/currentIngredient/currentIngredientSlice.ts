@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IIngredient } from "../../utils/types";
+import { IIngredient } from "../../../utils/types";
 
 
 

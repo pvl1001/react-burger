@@ -2,7 +2,7 @@ import s from './ProfileForm.module.scss'
 import { useRef, useState, useCallback, FC, ChangeEvent, FormEvent } from 'react'
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from "../../../services/store";
-import { patchUser } from "../../../services/slices/authSlice";
+import { patchUser } from "../../../services/slices/auth/authSlice";
 import { IUser } from "../../../utils/types";
 
 

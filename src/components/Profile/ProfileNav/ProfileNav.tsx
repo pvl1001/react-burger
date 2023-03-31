@@ -2,7 +2,7 @@ import { FC } from "react";
 import s from './ProfileNav.module.scss'
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { userLogout } from "../../../services/slices/authSlice";
+import { userLogout } from "../../../services/slices/auth/authSlice";
 import { AppDispatch } from "../../../services/types";
 
 

@@ -8,11 +8,11 @@ import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-component
 import useTotalPrice from "../../hooks/useTotalPrice";
 import { useEffect } from "react";
 import { getCookie } from "../../utils/setCookie";
-import { wsProfileConnection, wsProfileOffline } from "../../services/slices/wsProfileSlice";
+import { wsProfileConnection, wsProfileOffline } from "../../services/slices/ws/wsProfileSlice";
 import { WS_NORMA_API } from "../../utils/api";
 import routes from "../../utils/routes";
 import { RootState } from "../../services/types";
-import { wsFeedConnection, wsFeedOffline } from "../../services/slices/wsFeedSlice";
+import { wsFeedConnection, wsFeedOffline } from "../../services/slices/ws/wsFeedSlice";
 
 
 function OrderIdPage( { path }: { path: string } ) {

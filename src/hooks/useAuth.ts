@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from "../services/store";
-import { getUser } from "../services/slices/authSlice";
+import { getUser } from "../services/slices/auth/authSlice";
 import { getCookie } from "../utils/setCookie";
 
 

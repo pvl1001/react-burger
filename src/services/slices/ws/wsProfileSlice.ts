@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { TWsData } from "../../utils/types"
+import { TWsData } from "../../../utils/types"
 
 export type TWsState = {
    url: string,

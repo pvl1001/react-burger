@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { toggleLoader } from "./loaderSlice";
+import { toggleLoader } from "../loader/loaderSlice";
 import {
    authRequest,
    getRefreshTokenRequest,
@@ -7,9 +7,9 @@ import {
    logoutRequest,
    patchUserRequest,
    registerRequest
-} from "../../utils/api";
-import { deleteCookie, setCookie } from "../../utils/setCookie";
-import { ILoginForm, IResponseRegister, IUser, TStoreUser } from "../../utils/types";
+} from "../../../utils/api";
+import { deleteCookie, setCookie } from "../../../utils/setCookie";
+import { ILoginForm, IResponseRegister, IUser, TStoreUser } from "../../../utils/types";
 
 
 // получить данные пользователя

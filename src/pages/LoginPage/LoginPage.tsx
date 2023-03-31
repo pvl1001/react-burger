@@ -1,7 +1,7 @@
 import s from './LoginPage.module.scss'
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { userLogin } from "../../services/slices/authSlice";
+import { userLogin } from "../../services/slices/auth/authSlice";
 import { useForm } from "../../hooks/useForm";
 import { FC, FormEvent } from "react";
 import { useAppDispatch } from "../../services/store";
@@ -26,6 +26,7 @@ const LoginPage: FC = () => {
 
          <EmailInput
             required
+            data-cy="email_input"
             extraClass={ 'mb-6' }
             onChange={ handleChange }
             value={ values.email }
@@ -34,6 +35,7 @@ const LoginPage: FC = () => {
 
          <PasswordInput
             required
+            data-cy="password_input"
             extraClass={ 'mb-6' }
             onChange={ handleChange }
             value={ values.password }

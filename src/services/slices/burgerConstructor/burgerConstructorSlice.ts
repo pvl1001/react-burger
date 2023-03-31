@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IIngredient } from "../../utils/types";
+import { IIngredient } from "../../../utils/types";
 
 
 type TInitialState = {
@@ -17,8 +17,7 @@ const burgerConstructorSlice = createSlice( {
    initialState,
    reducers: {
       addItemConstructor( state, action ) {
-         const payload = action.payload
-         const item = { ...payload, item_id: new Date().getTime() }
+         const item = action.payload
          if ( item.type === 'bun' ) state.bun = item
          else state.ingredients = [ ...state.ingredients, item ]
       },
