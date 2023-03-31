@@ -8,7 +8,7 @@ import { TOrder } from "../../../utils/types";
 const FeedOrders: FC = () => {
    const orders: TOrder[] | undefined = useAppSelector( store => store.webSocketFeed.data?.orders )
 
-   if ( !orders ) return null
+   if ( !orders ) return <p>Загрузка...</p>
    return (
       <ul className={ s._ + ' scrollbar pr-2' }>
          { orders.map( order =>

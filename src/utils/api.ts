@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "./setCookie";
+import { getCookie } from "./setCookie";
 import { checkResponse, request } from "./request";
 import {
    IResponseUser,
@@ -14,7 +14,9 @@ export const WS_NORMA_API = 'wss://norma.nomoreparties.space'
 
 
 export const authRequest = async ( newToken?: string ): Promise<IResponseUser> => {
-   if ( newToken || getCookie( 'token' ) ) {
+   const token = newToken || getCookie( 'token' )
+
+   if ( token ) {
       const res = await fetch( `${ NORMA_API }/auth/user`, {
          method: 'GET',
          mode: 'cors',
@@ -22,7 +24,7 @@ export const authRequest = async ( newToken?: string ): Promise<IResponseUser> =
          credentials: 'same-origin',
          headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + getCookie( 'token' )
+            Authorization: 'Bearer ' + token
          },
          redirect: 'follow',
          referrerPolicy: 'no-referrer',
@@ -33,26 +35,22 @@ export const authRequest = async ( newToken?: string ): Promise<IResponseUser> =
 }
 
 
-export const getRefreshTokenRequest = async (): Promise<string> => {
+export const getRefreshTokenRequest = async (): Promise<any> => {
    if ( getCookie( 'refreshToken' ) ) {
-      const res = await request( `${ NORMA_API }/auth/token`, {
-         method: 'POST',
-         mode: 'cors',
-         cache: 'no-cache',
-         credentials: 'same-origin',
-         headers: { 'Content-Type': 'application/json', },
-         redirect: 'follow',
-         referrerPolicy: 'no-referrer',
-         body: JSON.stringify( { token: getCookie( 'refreshToken' ) } )
-      } )
-      if ( res.success ) {
-         const authToken = res.accessToken.split( 'Bearer ' )[1]
-         setCookie( 'token', authToken )
-         setCookie( 'refreshToken', res.refreshToken )
-         console.log( 'Token refresh' )
-         return authToken
+      try {
+         return await request( `${ NORMA_API }/auth/token`, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify( { token: getCookie( 'refreshToken' ) } )
+         } )
+      } catch ( err ) {
+         return err
       }
-      throw res
    }
    throw { message: 'Отсутствует refreshToken - необходимо авторизоваться' }
 }
