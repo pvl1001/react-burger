@@ -1,4 +1,4 @@
-describe( 'template spec', () => {
+describe( 'test constructor', () => {
    beforeEach( () => {
       const email = 'test@mail.ru'
       const password = 'test'
@@ -17,10 +17,10 @@ describe( 'template spec', () => {
       const dataTransfer = new DataTransfer()
 
       cy.contains( 'Краторная булка N-200i' ).trigger( 'dragstart', { dataTransfer } )
-      cy.get( '[data-cy=constructor' ).trigger( 'drop', { dataTransfer } )
+      cy.get( '[data-cy=constructor]' ).trigger( 'drop', { dataTransfer } )
 
       cy.contains( 'Соус Spicy-X' ).trigger( 'dragstart', { dataTransfer } )
-      cy.get( '[data-cy=constructor' ).trigger( 'drop', { dataTransfer } )
+      cy.get( '[data-cy=constructor]' ).trigger( 'drop', { dataTransfer } )
          .should( ( $c ) => {
             $c.map( ( i, $el ) => {
                expect( $el ).to.contain( 'Краторная булка N-200i' )
