@@ -21,4 +21,5 @@
 - Redux-toolkit
 - TypeScript
 - Scss
+- WebSocket
 - Jest, Cypress
