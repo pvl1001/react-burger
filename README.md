@@ -2,9 +2,6 @@
     <img src="./src/images/logo.svg" alt="logo">
 </div>
 <p><a href="https://react-burger-pvl1001.vercel.app">Потыкать проект</a></p>
-
-
-
 ___
 
 ### О проекте:
