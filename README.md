@@ -1,7 +1,8 @@
-<div style="text-align: center">
+<div style="text-align: center; background-color: #000">
     <img src="./src/images/logo.svg" alt="logo">
-    <p><a href="https://react-burger-pvl1001.vercel.app">Потыкать проект</a></p>
 </div>
+<p><a href="https://react-burger-pvl1001.vercel.app">Потыкать проект</a></p>
+
 
 
 ___
